@@ -26,3 +26,5 @@ link_file () {
 
 link_file ".gitconfig" "git"
 link_file ".tmux.conf" "tmux"
+link_file ".my_bash_profile" "bash"
+
