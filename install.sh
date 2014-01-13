@@ -20,7 +20,7 @@ link_file () {
   fi
 
   if [ "$PROCEED" == "YES" ]; then
-    ln -s ~/config-files/$SOURCEDIR/$DESTFILE ~/$DESTFILE
+    ln -s ~/dotfiles/$SOURCEDIR/$DESTFILE ~/$DESTFILE
   fi
 }
 

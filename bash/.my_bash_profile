@@ -27,7 +27,7 @@ alias la="ls -laF ${colorflag}"
 alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
 
 # Always use color output for `ls`
-alias ls="command ls ${colorflag}"
+alias ls="command ls ${colorflag} -F"
 
 # random time savers
 alias fucking="sudo"
@@ -41,6 +41,9 @@ alias gca="git commit -a"
 alias irc="weechat-curses"
 alias pu="pushd"
 alias po="popd"
+
+# clone common repos
+alias clonesamza="git clone git://git.apache.org/incubator-samza.git"
 
 # useful functions
 easyfind() {
