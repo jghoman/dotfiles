@@ -45,7 +45,7 @@ alias pu="pushd"
 alias po="popd"
 
 # clone common repos
-alias clonesamza="git clone git://git.apache.org/incubator-samza.git"
+alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/incubator-samza.git"
 alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
 
 # useful functions
