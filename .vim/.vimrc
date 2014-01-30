@@ -47,10 +47,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " Auto change the directory to the current file I'm working on
 autocmd BufEnter * lcd %:p:h
 
-" Highlight lines that go further than 80 characters
-" Turns out this is really annoying.
-"match ErrorMsg /\%>80v.\+/
-
 " Highlight current line - this is apparently beyond Emacs' abilities
 set cursorline
 
