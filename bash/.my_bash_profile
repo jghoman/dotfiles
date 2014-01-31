@@ -17,6 +17,9 @@ else # OS X `ls`
         colorflag="-G"
 fi
 
+# force tmux to use 256 colors
+alias tmux="tmux -2"
+
 # List all files colorized in long format
 alias l="ls -lF ${colorflag}"
 
