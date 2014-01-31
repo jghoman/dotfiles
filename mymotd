@@ -1,0 +1,10 @@
+BASH movement:
+
+C-a    Start of line
+C-e    End of line
+C-u    Cut before cursor
+C-w    Kill word before cursor
+C-k    Cut after cursor
+C-y    Paste
+C-t    Swap chars before cursor
+Esc-t  Swap words before cursor
