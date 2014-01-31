@@ -8,3 +8,6 @@ C-k    Cut after cursor
 C-y    Paste
 C-t    Swap chars before cursor
 Esc-t  Swap words before cursor
+Meta-b One word back
+Meta-f One word forward
+
