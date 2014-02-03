@@ -17,6 +17,9 @@ else # OS X `ls`
         colorflag="-G"
 fi
 
+# ack has a weird name on osx for some reason
+alias ack="ack-5.16"
+
 # force tmux to use 256 colors
 alias tmux="tmux -2"
 
