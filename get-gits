@@ -2,4 +2,5 @@
 
 git clone git@github.com:jghoman/scalas.git ~/scalas
 git clone git@github.com:jghoman/scripts.git ~/scripts
+git clone git@github.com:jghoman/presentations.git ~/presentations
 
