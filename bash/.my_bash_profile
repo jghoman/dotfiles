@@ -34,7 +34,6 @@ alias ls="command ls ${colorflag} -F"
 
 # random time savers
 alias fucking="sudo"
-alias cdw="cd ~/work/git/"
 alias grm="git rebase master"
 alias gcm="git checkout master"
 alias gco="git checkout"
@@ -43,7 +42,6 @@ alias gl="git lg"
 alias gca="git commit -a"
 alias gpom="git push origin master"
 alias gcdf="git clean -d -f"
-alias irc="weechat-curses"
 alias pu="pushd"
 alias po="popd"
 
