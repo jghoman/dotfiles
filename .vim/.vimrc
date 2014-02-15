@@ -11,6 +11,9 @@ set nobackup
 " Swap files suck
 set noswapfile
 
+" Turn off softwarp
+set nowrap
+
 " Make :wq case insensitive
 :command WQ wq
 :command Wq wq
