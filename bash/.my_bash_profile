@@ -35,6 +35,9 @@ alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
 # Always use color output for `ls`
 alias ls="command ls ${colorflag} -F"
 
+# better tree
+alias tl="tree -hs | less"
+
 # random time savers
 alias fucking="sudo"
 alias grm="git rebase master"
