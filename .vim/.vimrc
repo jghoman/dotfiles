@@ -153,7 +153,6 @@ autocmd BufRead *.py nmap <F5> :!python %<CR>
 :let g:ctrlp_working_path_mode = 'r' 
 :let g:ctrlp_dotfiles = 0
 :let g:ctrlp_switch_buffer = 0
-:let g:ctrlp_regexp = 1
 
 " Code folding
 set foldmethod=indent   "fold based on indent
