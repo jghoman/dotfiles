@@ -110,9 +110,6 @@ function thtop {
   tmux split-window -d "htop"
 }
 
-<<<<<<< HEAD
-
-=======
 # extract - this one has been making all the rounds
 # extract archives -- usage: extract <file>
 extract () {
@@ -135,4 +132,3 @@ extract () {
     echo "'$1' is not a valid file"
   fi
 }
->>>>>>> a28a37f027ee77f90946327b27356099c3a7baf4
