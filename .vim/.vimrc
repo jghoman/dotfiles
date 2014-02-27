@@ -61,6 +61,7 @@ abbreviate teh the
 abbreviate sout System.out.println
 abbreviate serr System.err.println
 abbreviate ztailrec import scala.annotation.tailrec
+abbreviate zbash usr/bin/env bash<CR>set -e # Bail early<CR>#set -x # Very verbose<CR>
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
