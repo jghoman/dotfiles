@@ -31,6 +31,9 @@ filetype plugin indent on
 " Remap default leader to comma
 let mapleader=","
 
+" Delete word under cursor in insert mode: http://stackoverflow.com/questions/833838/delete-word-after-or-around-cursor-in-vim
+:imap <C-d> <C-[>diwi
+
 " Toggle mode with jj as well as escape
 inoremap jj <ESC>
 
