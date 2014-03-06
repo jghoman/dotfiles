@@ -112,7 +112,8 @@ function thtop {
 
 # extract - this one has been making all the rounds
 # extract archives -- usage: extract <file>
-extract () {
+# Renaming to xtract cause it's faster to autocomplete.
+xtract () {
   if [ -f $1 ] ; then
     case $1 in
       *.tar.bz2) tar xjf $1 ;;
