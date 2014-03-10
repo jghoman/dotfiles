@@ -56,6 +56,14 @@ alias gcdf="git clean -d -f"
 alias pu="pushd"
 alias po="popd"
 
+# Moving around & all that jazz
+alias back='cd $OLDPWD'
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
 # clone common repos
 alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/incubator-samza.git"
 alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
