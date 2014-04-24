@@ -2,7 +2,7 @@
 # BASH goodness without which I go a bit... crazy.
 
 export SVN_EDITOR="vim"
-export HISTIGNORE="&:ls:[bf]g:exit:svn update:clear:cd:cd .."
+export HISTIGNORE="&:ls:[bf]g:exit:svn update:clear:cd:cd ..:gp:git pull"
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000
@@ -15,11 +15,6 @@ if ls --color > /dev/null 2>&1; then # GNU `ls`
         colorflag="--color"
 else # OS X `ls`
         colorflag="-G"
-fi
-
-# use autojump if it's installed
-if [ -f /opt/local/etc/profile.d/autojump.bash ]; then
-    . /opt/local/etc/profile.d/autojump.bash
 fi
 
 # ack has a weird name on osx for some reason
@@ -45,7 +40,6 @@ alias tl="tree -hs | less"
 
 # random time savers
 alias fucking="sudo"
-alias grm="git rebase master"
 alias gcm="git checkout master"
 alias gco="git checkout"
 alias gp="git pull"
@@ -53,6 +47,7 @@ alias gl="git lg"
 alias gca="git commit -a"
 alias gpom="git push origin master"
 alias gcdf="git clean -d -f"
+
 alias pu="pushd"
 alias po="popd"
 
