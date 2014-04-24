@@ -40,7 +40,6 @@ alias tl="tree -hs | less"
 
 # random time savers
 alias fucking="sudo"
-alias grm="git rebase master"
 alias gcm="git checkout master"
 alias gco="git checkout"
 alias gp="git pull"
@@ -48,6 +47,7 @@ alias gl="git lg"
 alias gca="git commit -a"
 alias gpom="git push origin master"
 alias gcdf="git clean -d -f"
+
 alias pu="pushd"
 alias po="popd"
 
