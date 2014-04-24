@@ -2,7 +2,7 @@
 # BASH goodness without which I go a bit... crazy.
 
 export SVN_EDITOR="vim"
-export HISTIGNORE="&:ls:[bf]g:exit:svn update:clear:cd:cd .."
+export HISTIGNORE="&:ls:[bf]g:exit:svn update:clear:cd:cd ..:gp:git pull"
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000
