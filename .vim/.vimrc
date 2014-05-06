@@ -197,3 +197,21 @@ if executable('ag')
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR><CR>
+
+" The following is taken from Damian Conway's talk on Most Instantly Better
+" Vim: http://programming.oreilly.com/2013/10/more-instantly-better-vim.
+
+" Highlight  just the 81st column of wide lines...
+highlight ColorColumn ctermbg=blue
+call matchadd('ColorColumn', '\%81v', 100)
+
+"====[ Make tabs, trailing whitespace, and non-breaking spaces visible ]======
+exec "set listchars=tab:\uBB\uBB,trail:\uB7,nbsp:~"
+set list
+
+"Remap ; to : to save on typing
+nnoremap  ;  :
+
