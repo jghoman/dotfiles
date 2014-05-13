@@ -113,8 +113,8 @@ function thtop {
   tmux split-window -d "htop"
 }
 
-# extract - this one has been making all the rounds
-# extract archives -- usage: extract <file>
+# xtract - this one has been making all the rounds
+# xtract archives -- usage: xtract <file>
 # Renaming to xtract cause it's faster to autocomplete.
 xtract () {
   if [ -f $1 ] ; then
