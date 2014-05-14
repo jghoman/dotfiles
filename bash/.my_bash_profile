@@ -137,3 +137,10 @@ xtract () {
   fi
 }
 
+# Use vimpager if it's available
+if type vimpager >/dev/null 2>&1; then
+  export PAGER=vimpager
+  alias less=$PAGER
+  alias zless=$PAGER
+fi
+
