@@ -14,6 +14,7 @@
 [color]
 	ui = true
 [core]
-	editor = vim
+  editor = vim
+  pager = /usr/bin/less
 [help]
 	autocorrect = 1
