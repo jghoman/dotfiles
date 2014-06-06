@@ -215,3 +215,5 @@ set list
 "Remap ; to : to save on typing
 nnoremap  ;  :
 
+"Toggle paste with F2
+set pastetoggle=<F2>
