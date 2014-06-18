@@ -1,1 +1,1 @@
-build-essential ssh docker.io vim tmux maven gradle git-core gitweb gitk htop gparted glances tig ghc ncdu tree rar zsh silversearcher-ag pandoc valgrind ccache llvm clang
+build-essential ssh docker.io vim tmux maven gradle git-core gitweb htop glances tig ghc ncdu tree zsh silversearcher-ag pandoc valgrind ccache llvm clang
