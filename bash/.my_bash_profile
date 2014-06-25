@@ -47,6 +47,7 @@ alias gl="git lg"
 alias gca="git commit -a"
 alias gpom="git push origin master"
 alias gcdf="git clean -d -f"
+alias gd="git diff --no-prefix"
 
 alias pu="pushd"
 alias po="popd"
