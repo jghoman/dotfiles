@@ -217,3 +217,11 @@ nnoremap  ;  :
 
 "Toggle paste with F2
 set pastetoggle=<F2>
+
+" Map building the current file to F5 and always write it
+map <f5> :make<cr>
+set autowrite
+
+" Makeprgs for some filetypes
+autocmd BufRead *.io set makeprg=clear;io\ %
+
