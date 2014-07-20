@@ -219,7 +219,8 @@ nnoremap  ;  :
 set pastetoggle=<F2>
 
 " Map building the current file to F5 and always write it
-map <f5> :make<cr>
+:inoremap <f5> <c-o>:make<cR>
+:map <f5> :make<cR>
 set autowrite
 
 " Makeprgs for some filetypes
