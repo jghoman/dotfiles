@@ -65,7 +65,7 @@ alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/incubator-sa
 alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
 
 # detach tmux client
-alias detachtmux="tmux detach -a"
+alias detachtmux="tmux attach -d"
 
 # useful functions
 easyfind() {
