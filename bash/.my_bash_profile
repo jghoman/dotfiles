@@ -152,3 +152,26 @@ if type vimpager >/dev/null 2>&1; then
   alias zless=$PAGER
 fi
 
+# http://alias.sh/python-simple-http-server-1
+# HTTP serve the current directory to 0.0.0.0 and safety port 8765
+# Detect python version
+ret=`python -c 'import sys; print("%i" % (sys.hexversion<0x03000000))'`
+if [ $ret -eq 0 ]; then    # Python version is >= 3
+    alias pyhttp='python -m http.server 8765'
+else    # Python version is < 3
+    alias pyhttp='python -m SimpleHTTPServer 8765'
+fi
+
+# http://alias.sh/whats-gobbling-memory
+alias memhog='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
+
+# http://alias.sh/copy-folder-remote-server
+function putout() {
+tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
+}
+
+# http://alias.sh/copy-public-key-remote-machine-dependency-less
+function authme() {
+  ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
+    < ~/.ssh/id_dsa.pub
+}
