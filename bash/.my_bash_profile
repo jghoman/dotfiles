@@ -71,6 +71,9 @@ alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
 # detach tmux client
 alias detachtmux="tmux attach -d"
 
+# I seem to have a pathologic need to know this...
+alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
+
 # useful functions
 easyfind() {
   find . -name "${1}"
