@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+set -x
+
+pushd /tmp
+DIR=`mktemp -d dfc-install-XXXX`
+pushd $DIR
+wget http://projects.gw-computing.net/attachments/download/79/dfc-3.0.4.tar.gz
+
+tar -xzf dfc*.tar.gz
+
+pushd dfc*
+
+mkdir build
+pushd build
+
+cmake ..
+
+make
+
+sudo make install
+
+popd # build
+popd # dfc
+popd # DIR
+
+rm -rf $DIR
+
+popd # /tmp
