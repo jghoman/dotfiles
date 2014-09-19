@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#set -e # Bail early
+#set -x # Very verbose
+
+echo "apply plugin: 'java'
+apply plugin: 'idea'
+
+task downloadWrapper(type: Wrapper) {
+    description = \"Download the gradle wrapper and requisite files. Overwrites existing wrapper files.\"
+    gradleVersion = project.gradleVersion
+}
+
+dependencies {
+  compile(\"org.apache.hadoop:hadoop-common:\$hadoopVersion\")
+  compile(\"org.apache.hadoop:hadoop-hdfs:\$hadoopVersion\")
+  testCompile(\"org.apache.hadoop:hadoop-minicluster:\$hadoopVersion\")
+  compile(\"org.apache.hadoop:hadoop-mapreduce-client-core:\$hadoopVersion\")
+  testCompile(\"junit:junit:\$junitVersion\")
+}" > build.gradle
+
+echo "gradleVersion=2.1
+hadoopVersion=2.5.0
+junitVersion=4.11" > gradle.properties
+
+gradle -q wrapper
+
+./gradlew -q check
+
+rm gradlew.bat
+
+if [ -d ".git" ] ; then
+  git add gradlew gradle build.gradle gradle.properties
+  git commit -a -m "Added build.gradle boilerplate."
+fi
+

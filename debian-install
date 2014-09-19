@@ -23,3 +23,5 @@ zfc
 multitail
 iotop
 cmake
+slurm
+coreutils
