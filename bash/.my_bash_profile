@@ -49,6 +49,13 @@ alias gpom="git push origin master"
 alias gcdf="git clean -d -f"
 alias gd="git diff --no-prefix"
 
+# move around
+alias work="pushd ~/work"
+alias repos="pushd ~/repos"
+alias samza="pushd ~/repos/samza"
+alias dotfiles="pushd ~/dotfiles"
+alias downloads="pushd ~/downloads"
+
 gitbranch() {
   git branch --track $1 origin/$1
 }
