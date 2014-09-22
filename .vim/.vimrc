@@ -25,7 +25,8 @@ set wildmenu
 set wildmode=list:longest,full
 
 set guifont=Inconsolata:h15
-colorscheme koehler
+set background=light
+colorscheme mayansmoke
 filetype plugin indent on
 
 " Remap default leader to comma
@@ -56,7 +57,7 @@ autocmd BufEnter * lcd %:p:h
 " Highlight current line - this is apparently beyond Emacs' abilities
 set cursorline
 
-" Move backfwards and forwards through buffers similar to moving through text
+" Move backwards and forwards through buffers similar to moving through text
 map <C-J> <ESC>:bn<CR>
 map <C-K> <ESC>:bp<CR>
 
@@ -120,7 +121,7 @@ if has("autocmd")
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event handler
   " (happens when dropping a file on gvim).
-  " Also don't do it when the mark is in the first line, that is the default                                                                                              
+  " Also don't do it when the mark is in the first line, that is the default
   " position when opening a file.
   autocmd BufReadPost *
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
