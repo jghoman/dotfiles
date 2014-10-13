@@ -206,4 +206,8 @@ function authme() {
     < ~/.ssh/id_dsa.pub
 }
 
+source ~/dotfiles/bash/bash-git-prompt/prompt-colors.sh
+Time12a="\$(date +%H:%M)"
+Hostname="\$(hostname -s)"
+GIT_PROMPT_END_USER=" \n${Hostname} ${White}${Time12a}${ResetColor} $ "
 source ~/dotfiles/bash/bash-git-prompt/gitprompt.sh
