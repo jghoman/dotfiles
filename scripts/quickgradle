@@ -22,14 +22,16 @@ echo "gradleVersion=2.1
 hadoopVersion=2.5.0
 junitVersion=4.11" > gradle.properties
 
-gradle -q wrapper
+gradle -q downloadWrapper
 
 ./gradlew -q check
 
 rm gradlew.bat
 
 if [ -d ".git" ] ; then
-  git add gradlew gradle build.gradle gradle.properties
+  echo ".gradle/" > .gitignore
+
+  git add .gitignore gradlew gradle build.gradle gradle.properties
   git commit -a -m "Added build.gradle boilerplate."
 fi
 
