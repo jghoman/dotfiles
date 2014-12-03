@@ -7,6 +7,8 @@ export HISTCONTROL=ignoredups
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000
 
+export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=128m"
+
 shopt -s histappend
 
 # This section stolen from https://github.com/mathiasbynens/dotfiles/blob/master/.aliases
