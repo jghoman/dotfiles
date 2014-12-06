@@ -150,5 +150,9 @@ bar {
 }
 
 # My customizations
+# Swap control and caps
 exec --no-startup-id setxkbmap -option ctrl:swapcaps
+
+# Lock screen
+bindsym $mod+Control+l exec i3lock -d
 
