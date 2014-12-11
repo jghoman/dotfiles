@@ -40,6 +40,8 @@ alias ls="command ls ${colorflag} -F"
 # better tree
 alias tl="tree -hs | less"
 
+alias zmvn="mvn -DskipTests=true clean dependency:go-offline verify package"
+
 # from: http://natelandau.com/my-mac-osx-bash_profile/
 #   ---------------------------
 #   6.  NETWORKING
@@ -106,6 +108,10 @@ alias detachtmux="tmux attach -d"
 alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
 
 # useful functions
+aclone() {
+  git clone git://git.apache.org/${1}
+}
+
 easyfind() {
   find . -name "${1}"
 }
