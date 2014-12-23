@@ -108,8 +108,13 @@ alias detachtmux="tmux attach -d"
 alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
 
 # useful functions
-aclone() {
-  git clone git://git.apache.org/${1}
+asfclone() {
+  git clone https://github.com/apache/${1}.git
+  pushd ${1}
+  git remote add asf git://git.apache.org/${1}
+  git remote add asfwrite https://git-wip-us.apache.org/repos/asf/${1}
+
+  popd
 }
 
 easyfind() {
