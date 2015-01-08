@@ -120,8 +120,13 @@ mvnqs() {
   mvn archetype:generate -DgroupId=${1} -DartifactId=${2} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 }
 
-aclone() {
-  git clone git://git.apache.org/${1}
+asfclone() {
+  git clone https://github.com/apache/${1}.git
+  pushd ${1}
+  git remote add asf git://git.apache.org/${1}
+  git remote add asfwrite https://git-wip-us.apache.org/repos/asf/${1}
+
+  popd
 }
 
 easyfind() {
