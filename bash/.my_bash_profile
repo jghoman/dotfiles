@@ -102,6 +102,7 @@ alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
 alias asfauth="svn --username jghoman co https://svn.apache.org/repos/infra/infrastructure/trunk/subversion/authorization/"
 alias asfincubaotr="svn --username jghoman co https://svn.apache.org/repos/asf/incubator/public/trunk incubator"
 alias asfpublishincubator="open https://cms.apache.org/incubator/publish"
+alias asfboard="svn checkout --username jghoman https://svn.apache.org/repos/private/foundation/board"
 # detach tmux client
 alias detachtmux="tmux attach -d"
 
@@ -109,6 +110,16 @@ alias detachtmux="tmux attach -d"
 alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
 
 # useful functions
+crgogitignore() {
+  echo "target/*
+Cargo.lock" >> .gitignore
+  git add .gitignore
+}
+
+mvnqs() {
+  mvn archetype:generate -DgroupId=${1} -DartifactId=${2} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+}
+
 aclone() {
   git clone git://git.apache.org/${1}
 }
