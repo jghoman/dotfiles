@@ -100,7 +100,7 @@ alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/incubator-sa
 alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
 
 alias asfauth="svn --username jghoman co https://svn.apache.org/repos/infra/infrastructure/trunk/subversion/authorization/"
-alias asfincubaotr="svn --username jghoman co https://svn.apache.org/repos/asf/incubator/public/trunk incubator"
+alias asfincubator="svn --username jghoman co https://svn.apache.org/repos/asf/incubator/public/trunk incubator"
 alias asfpublishincubator="open https://cms.apache.org/incubator/publish"
 alias asfboard="svn checkout --username jghoman https://svn.apache.org/repos/private/foundation/board"
 # detach tmux client
