@@ -156,3 +156,6 @@ exec --no-startup-id setxkbmap -option ctrl:swapcaps
 # Lock screen
 bindsym $mod+Control+l exec i3lock -d
 
+# scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
