@@ -109,6 +109,11 @@ alias detachtmux="tmux attach -d"
 # I seem to have a pathologic need to know this...
 alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
 
+
+# Piping is fun
+alias hn1="head -n1"
+alias tn1="tail -n1"
+
 # useful functions
 crgogitignore() {
   echo "target/*
