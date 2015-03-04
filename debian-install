@@ -2,6 +2,10 @@
 set -e # Bail early
 set -x # Very verbose
 
+sudo apt-get update
+
+sudo apt-get distupgrade
+
 sudo apt-get -y install build-essential \ 
 ssh \
 vim \
@@ -28,4 +32,8 @@ iotop \
 cmake \
 slurm \
 coreutils
- 
+
+~/dotfiles/scripts/install.sh
+
+~/dotfiles/append_my_bash_profile.sh
+
