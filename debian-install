@@ -4,9 +4,9 @@ set -x # Very verbose
 
 sudo apt-get update
 
-sudo apt-get distupgrade
+sudo apt-get dist-upgrade
 
-sudo apt-get -y install build-essential \ 
+sudo apt-get -y install build-essential \
 ssh \
 vim \
 tmux \
@@ -26,7 +26,6 @@ valgrind \
 ccache \
 llvm \
 clang \
-zfc \
 multitail \
 iotop \
 cmake \
