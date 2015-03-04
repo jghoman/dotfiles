@@ -1,27 +1,31 @@
-build-essential
-ssh
-vim
-tmux
-maven
-gradle
-git-core
-gitweb
-htop
-glances
-tig
-ghc
-ncdu
-tree
-zsh
-silversearcher-ag
-pandoc
-valgrind
-ccache
-llvm
-clang
-zfc
-multitail
-iotop
-cmake
-slurm
+#!/usr/bin/env bash
+set -e # Bail early
+set -x # Very verbose
+
+sudo apt-get -y install build-essential \ 
+ssh \
+vim \
+tmux \
+maven \
+gradle \
+gitweb \
+htop \
+glances \
+tig \
+ghc \
+ncdu \
+tree \
+zsh \
+silversearcher-ag \
+pandoc \
+valgrind \
+ccache \
+llvm \
+clang \
+zfc \
+multitail \
+iotop \
+cmake \
+slurm \
 coreutils
+ 
