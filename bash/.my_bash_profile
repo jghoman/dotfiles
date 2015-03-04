@@ -1,6 +1,12 @@
 
 # BASH goodness without which I go a bit... crazy.
 
+case "$OSTYPE" in
+  darwin*) OS="OSX" ;;
+  linux*)  OS="LINUX" ;;
+  *)       OS="Unknown";;
+esac
+
 export SVN_EDITOR="vim"
 export HISTIGNORE="&:ls:[bf]g:exit:svn update:clear:cd:cd ..:gp:git pull"
 export HISTCONTROL=ignoredups
@@ -243,3 +249,10 @@ Time12a="\$(date +%H:%M)"
 Hostname="\$(hostname -s)"
 GIT_PROMPT_END_USER=" \n${Hostname} ${White}${Time12a}${ResetColor} $ "
 source ~/dotfiles/bash/bash-git-prompt/gitprompt.sh
+
+# Set Java homes if they are available
+if [ "$OS" = "OSX" ]; then
+  JAVA6_HOME=$(/usr/libexec/java_home -v 1.6)
+  JAVA7_HOME=$(/usr/libexec/java_home -v 1.7)
+  JAVA8_HOME=$(/usr/libexec/java_home -v 1.8)
+fi
