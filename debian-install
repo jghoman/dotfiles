@@ -30,7 +30,10 @@ multitail \
 iotop \
 cmake \
 slurm \
-coreutils
+coreutils \
+autoconf \
+automake \
+m4
 
 ~/dotfiles/scripts/install.sh
 
