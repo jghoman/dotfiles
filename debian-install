@@ -10,7 +10,6 @@ sudo apt-get -y install build-essential \
 ssh \
 vim \
 tmux \
-maven \
 gradle \
 gitweb \
 htop \
