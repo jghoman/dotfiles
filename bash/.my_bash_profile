@@ -9,7 +9,7 @@ esac
 
 export SVN_EDITOR="vim"
 export HISTIGNORE="&:ls:[bf]g:exit:svn update:clear:cd:cd ..:gp:git pull"
-export HISTCONTROL=ignoredups
+export HISTCONTROL=ignoreboth:erasedups
 export HISTFILESIZE=1000000000
 export HISTSIZE=1000000
 
