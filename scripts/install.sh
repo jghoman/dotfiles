@@ -28,3 +28,5 @@ link_file ".gitconfig" "git"
 link_file ".tmux.conf" "tmux"
 link_file ".my_bash_profile" "bash"
 
+ln -s ~/dotfiles/.vim ~/.vim
+ln -s ~/dotfiles/.vim/.vimrc ~/.vimrc
