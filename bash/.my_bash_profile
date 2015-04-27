@@ -109,6 +109,7 @@ alias asfauth="svn --username jghoman co https://svn.apache.org/repos/infra/infr
 alias asfincubator="svn --username jghoman co https://svn.apache.org/repos/asf/incubator/public/trunk incubator"
 alias asfpublishincubator="open https://cms.apache.org/incubator/publish"
 alias asfboard="svn checkout --username jghoman https://svn.apache.org/repos/private/foundation/board"
+alias asfhadoopwrite="git remote add asfwrite https://git-wip-us.apache.org/repos/asf/hadoop.git"
 # detach tmux client
 alias detachtmux="tmux attach -d"
 
