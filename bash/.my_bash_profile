@@ -110,6 +110,10 @@ alias asfincubator="svn --username jghoman co https://svn.apache.org/repos/asf/i
 alias asfpublishincubator="open https://cms.apache.org/incubator/publish"
 alias asfboard="svn checkout --username jghoman https://svn.apache.org/repos/private/foundation/board"
 alias asfhadoopwrite="git remote add asfwrite https://git-wip-us.apache.org/repos/asf/hadoop.git"
+
+# Docker aliases
+alias dockerdev="docker run  -i -v ~/repos:/home/jghoman/repos -v ~/.m2:/home/jghoman/.m2 -t jghoman/docker-dev-env"
+
 # detach tmux client
 alias detachtmux="tmux attach -d"
 
