@@ -261,3 +261,9 @@ if [ "$OS" = "OSX" ]; then
   JAVA7_HOME=$(/usr/libexec/java_home -v 1.7)
   JAVA8_HOME=$(/usr/libexec/java_home -v 1.8)
 fi
+
+if [ -d ~/bin/go ]; then
+  export GOROOT=~/bin/go
+  export PATH=$GOROOT/bin:$PATH
+  export GOPATH=~/.gocode
+fi
