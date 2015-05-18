@@ -13,5 +13,9 @@ unzip $VISUALVM_FILE
 rm $VISUALVM_FILE
 
 ln -s ~/bin/${VISUALVM} ~/bin/visualvm
+
+# Doesn't come with a good icon.  Grab one from the web.
+curl -sSL "https://asset-1.java.net/attachments/images/project/visualvm.png?20150226.965aeb8" -o visualvm/etc/icon.png
+
 popd
 
