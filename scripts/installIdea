@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e # Bail early
+set -x # Very verbose
+
+IDEA=ideaIU-14.1.3.tar.gz
+mkdir -p ~/bin
+
+(curl -sSL "https://download.jetbrains.com/idea/${IDEA}" | tar -xz -C ~/bin)
+ln -s ~/bin/idea*/ ~/bin/idea
