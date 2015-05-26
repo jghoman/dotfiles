@@ -125,6 +125,9 @@ alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
 alias hn1="head -n1"
 alias tn1="tail -n1"
 
+# Vim, all day  long
+alias v="vim"
+
 # useful functions
 crgogitignore() {
   echo "target/*
