@@ -102,7 +102,7 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
 # clone common repos
-alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/incubator-samza.git"
+alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/samza.git"
 alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
 
 alias asfauth="svn --username jghoman co https://svn.apache.org/repos/infra/infrastructure/trunk/subversion/authorization/"
