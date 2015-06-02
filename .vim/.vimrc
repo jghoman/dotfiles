@@ -29,8 +29,8 @@ set background=light
 colorscheme mayansmoke
 filetype plugin indent on
 
-" Remap default leader to comma
-let mapleader=","
+" Remap default leader to space
+let mapleader="\<Space>"
 
 " Delete word under cursor in insert mode: http://stackoverflow.com/questions/833838/delete-word-after-or-around-cursor-in-vim
 :imap <C-d> <C-[>diwi
@@ -229,3 +229,20 @@ set autowrite
 " Makeprgs for some filetypes
 autocmd BufRead *.io set makeprg=clear;io\ %
 
+"" Tips from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
+nnoremap <Leader>o :CtrlP<CR>
+nnoremap <Leader>w :w<CR>
+nmap <Leader><Leader> V
+
+" Use SilverSurfer for CtrlP
+let g:ctrlp_use_caching = 0
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor
+
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+else
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
+  let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
+    \ }
+endif
