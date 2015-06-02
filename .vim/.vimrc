@@ -246,3 +246,7 @@ else
     \ 'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
     \ }
 endif
+
+" Use v to expand visual selection
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
