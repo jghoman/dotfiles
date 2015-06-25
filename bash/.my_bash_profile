@@ -270,3 +270,5 @@ if [ -d ~/bin/go ]; then
   export PATH=$GOROOT/bin:$PATH
   export GOPATH=~/.gocode
 fi
+
+export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
