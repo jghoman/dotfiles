@@ -232,6 +232,7 @@ autocmd BufRead *.io set makeprg=clear;io\ %
 "" Tips from http://sheerun.net/2014/03/21/how-to-boost-your-vim-productivity/
 nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>q :q<CR>
 nmap <Leader><Leader> V
 
 " Use SilverSurfer for CtrlP

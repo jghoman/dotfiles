@@ -11,10 +11,9 @@
   co = checkout
   br = branch
   cm = checkout master
+  pl = pull -rebase
 [color]
-	ui = true
+  ui = true
 [core]
   editor = vim
   pager = /usr/bin/less
-[help]
-	autocorrect = 1
