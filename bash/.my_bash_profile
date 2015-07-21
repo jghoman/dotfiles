@@ -241,6 +241,9 @@ fi
 # http://alias.sh/whats-gobbling-memory
 alias memhog='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
 
+# fetch all the gits!
+alias fetchrepos='pushd ~/repos && for d in */; do pushd $d; if [ -d ".git" ]; then git fetch; fi; popd; done && popd'
+
 # http://alias.sh/copy-folder-remote-server
 function putout() {
 tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
