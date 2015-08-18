@@ -101,6 +101,13 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
+# hadoop hadoop hadoop
+runspecifictests() {
+  for t in $@; do mvn -Dtest=$t test | tee -a results.txt;done
+}
+
+alias hgrepFail="grep Failures results.txt | grep \"in \""
+
 # clone common repos
 alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/samza.git"
 alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
