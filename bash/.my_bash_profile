@@ -116,7 +116,7 @@ alias asfauth="svn --username jghoman co https://svn.apache.org/repos/infra/infr
 alias asfincubator="svn --username jghoman co https://svn.apache.org/repos/asf/incubator/public/trunk incubator"
 alias asfpublishincubator="open https://cms.apache.org/incubator/publish"
 alias asfboard="svn checkout --username jghoman https://svn.apache.org/repos/private/foundation/board"
-alias asfhadoopwrite="git clone https://git-wip-us.apache.org/repos/asf/hadoop"
+alias asfhadoopwrite="git clone https://git-wip-us.apache.org/repos/asf/hadoop && pushd hadoop && git branch --track branch-2 origin/branch-2 && popd"
 
 # Docker aliases
 alias dockerdev="docker run  -i -v ~/repos:/home/jghoman/repos -v ~/.m2:/home/jghoman/.m2 -t jghoman/docker-dev-env"
