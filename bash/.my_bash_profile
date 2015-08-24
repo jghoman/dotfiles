@@ -120,6 +120,8 @@ alias detachtmux="tmux attach -d"
 # I seem to have a pathologic need to know this...
 alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
 
+# nyan in docker
+alias nyan="docker run -it supertest2014/nyan"
 
 # Piping is fun
 alias hn1="head -n1"
