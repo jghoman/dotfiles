@@ -17,3 +17,4 @@
 [core]
   editor = vim
   pager = /usr/bin/less
+	excludesfile = /Users/jahoman/.gitignore_global
