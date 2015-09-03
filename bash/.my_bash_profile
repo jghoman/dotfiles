@@ -103,6 +103,7 @@ alias ......="cd ../../../../.."
 
 # hadoop hadoop hadoop
 runspecifictests() {
+  rm -f results.txt
   for t in $@; do mvn -Dtest=$t test | tee -a results.txt;done
 }
 
