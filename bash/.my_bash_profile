@@ -21,6 +21,8 @@ shopt -s histappend
 if [ ! -d ~/.history ]; then
   mkdir ~/.history
 fi
+HOSTNAME="$(hostname)"
+HOSTNAME_SHORT="${HOSTNAME%%.*}"
 export HISTFILE="${HOME}/.history/$(date -u +%Y/%m/%d.%H.%M.%S)_${HOSTNAME_SHORT}_$$"
 
 # This section stolen from https://github.com/mathiasbynens/dotfiles/blob/master/.aliases
