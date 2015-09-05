@@ -79,6 +79,8 @@ alias gpom="git push origin master"
 alias gcdf="git clean -d -f"
 alias gd="git diff --no-prefix"
 
+alias gti=git
+
 # move around
 alias work="pushd ~/work"
 alias repos="pushd ~/repos"
