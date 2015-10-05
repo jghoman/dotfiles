@@ -122,7 +122,7 @@ alias asfboard="svn checkout --username jghoman https://svn.apache.org/repos/pri
 alias asfhadoopwrite="git clone https://git-wip-us.apache.org/repos/asf/hadoop && pushd hadoop && git branch --track branch-2 origin/branch-2 && popd"
 
 # Docker aliases
-alias dockerdev="docker run  -i -v ~/repos:/home/jghoman/repos -v ~/.m2:/home/jghoman/.m2 -t jghoman/docker-dev-env"
+alias dockerenv="eval "$(docker-machine env default)""
 
 # detach tmux client
 alias detachtmux="tmux attach -d"
