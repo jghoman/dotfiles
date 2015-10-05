@@ -273,9 +273,20 @@ source ~/dotfiles/bash/bash-git-prompt/gitprompt.sh
 
 # Set Java homes if they are available
 if [ "$OS" = "OSX" ]; then
-  JAVA6_HOME=$(/usr/libexec/java_home -v 1.6)
-  JAVA7_HOME=$(/usr/libexec/java_home -v 1.7)
-  JAVA8_HOME=$(/usr/libexec/java_home -v 1.8)
+  /usr/libexec/java_home -v 1.6 &> /dev/null
+  if [ $? -eq 0 ]; then
+    JAVA6_HOME=$(/usr/libexec/java_home -v 1.6)
+  fi
+
+  /usr/libexec/java_home -v 1.7 &> /dev/null
+  if [ $? -eq 0 ]; then
+    JAVA7_HOME=$(/usr/libexec/java_home -v 1.7)
+  fi
+
+  /usr/libexec/java_home -v 1.8 &> /dev/null
+  if [ $? -eq 0 ]; then
+    JAVA8_HOME=$(/usr/libexec/java_home -v 1.8)
+  fi
 fi
 
 if [ -d ~/bin/go ]; then
