@@ -17,6 +17,14 @@ sudo port install \
     tree \
     ncdu \
     py27-pip \
+    python27 \
+    py27-virtualenv \
+    cmake \
+    autoconf \
+    automake \
+    apache-ant \
+    libtool \
+    pkgconfig \
     jq
 
 sudo port select --set maven maven3
