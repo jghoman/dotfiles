@@ -3,29 +3,32 @@ set -e # Bail early
 #set -x # Very verbose
 
 sudo port install \
-    tmux \
-    vim \
-    git \
-    llvm-3.8 \
-    htop \
-    glances \
-    mutt \
-    bash \
-    clang-3.4 \
-    the_silver_searcher \
-    maven3 \
-    tree \
-    ncdu \
-    py27-pip \
-    python27 \
-    py27-virtualenv \
-    cmake \
+    apache-ant \
     autoconf \
     automake \
-    apache-ant \
+    bash \
+    bison \
+    ccache \
+    clang-3.4 \
+    cmake \
+    git \
+    glances \
+    htop \
+    jq \
     libtool \
+    llvm-3.8 \
+    maven3 \
+    mutt \
+    ncdu \
     pkgconfig \
-    jq
+    py27-pip \
+    py27-virtualenv \
+    python27 \
+    the_silver_searcher \
+    tmux \
+    tree \
+    valgrind \
+    vim
 
 sudo port select --set maven maven3
 sudo port select --set pip pip27
