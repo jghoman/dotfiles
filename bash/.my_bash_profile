@@ -132,6 +132,9 @@ alias detachtmux="tmux attach -d"
 # I seem to have a pathologic need to know this...
 alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
 
+qsmvn() {
+  mvn archetype:generate -DgroupId=${1} -DartifactId=${2} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+}
 
 # Piping is fun
 alias hn1="head -n1"
