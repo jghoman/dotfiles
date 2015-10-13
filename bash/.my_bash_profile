@@ -301,3 +301,5 @@ if [ -d ~/bin/go ]; then
 fi
 
 export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
+
+export AWS_REGIONS="us-east-1 us-west-2 us-west-1 eu-west-1"
