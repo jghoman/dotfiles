@@ -294,11 +294,11 @@ if [ "$OS" = "OSX" ]; then
   fi
 fi
 
-if [ -d ~/bin/go ]; then
-  export GOROOT=~/bin/go
-  export PATH=$GOROOT/bin:$PATH
-  export GOPATH=~/.gocode
+if [ ! -d ~/gocode ]; then
+  mkdir ~/gocode
 fi
+
+export GOPATH=~/gocode
 
 export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
