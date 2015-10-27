@@ -32,3 +32,5 @@ sudo port install \
 
 sudo port select --set maven maven3
 sudo port select --set pip pip27
+
+~/dotfiles/scripts/compileprotoc.sh
