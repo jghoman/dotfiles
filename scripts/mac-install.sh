@@ -27,7 +27,7 @@ sudo port install \
     the_silver_searcher \
     tmux \
     tree \
-    valgrind \
+    wget \
     vim
 
 sudo port select --set maven maven3
