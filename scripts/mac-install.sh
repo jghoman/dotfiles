@@ -18,6 +18,7 @@ sudo port install \
     libtool \
     llvm-3.8 \
     maven3 \
+    mercurial \
     mutt \
     ncdu \
     pkgconfig \
