@@ -22,14 +22,16 @@ sudo port install \
     mutt \
     ncdu \
     pkgconfig \
+    pstree \
     py27-pip \
     py27-virtualenv \
     python27 \
     the_silver_searcher \
     tmux \
     tree \
-    wget \
-    vim
+    vim \
+    watch \
+    wget
 
 sudo port select --set maven maven3
 sudo port select --set pip pip27
