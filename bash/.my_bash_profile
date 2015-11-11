@@ -126,6 +126,14 @@ dockerenv() {
   eval "$(docker-machine env default)"
 }
 
+zdcleancreated() {
+  docker ps -a | tail -n +2 | sed -n 's/  */ /gp' | cut -d " " -f 1 | xargs docker rm
+}
+
+zdcleanimages() {
+  docker images | grep "<none>" | sed -n 's/  */ /gp' | cut -d " " -f 3 | xargs docker rmi
+}
+
 # detach tmux client
 alias detachtmux="tmux attach -d"
 
