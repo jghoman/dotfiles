@@ -17,6 +17,7 @@ sudo port install \
     jq \
     libtool \
     llvm-3.8 \
+    lua \
     maven3 \
     mercurial \
     mutt \
