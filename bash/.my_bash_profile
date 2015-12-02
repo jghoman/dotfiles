@@ -269,7 +269,7 @@ alias fetchrepos='pushd ~/repos && for d in */; do pushd $d; if [ -d ".git" ]; t
 
 # http://alias.sh/copy-folder-remote-server
 function putout() {
-tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
+  tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
 }
 
 # http://alias.sh/copy-public-key-remote-machine-dependency-less
@@ -318,3 +318,8 @@ function venv()
     source venv/bin/activate
   fi
 }
+
+# Add python bins if they're around
+if [ -d ~/Library/Python/2.7/bin ]; then
+  export PATH=$PATH:~/Library/Python/2.7/bin
+fi
