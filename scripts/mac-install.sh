@@ -40,3 +40,4 @@ sudo port select --set pip pip27
 ~/dotfiles/scripts/compileprotoc.sh
 
 pip install --user --upgrade httpie
+pip install --user --upgrade aws-shell
