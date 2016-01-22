@@ -41,3 +41,4 @@ sudo port select --set pip pip27
 
 pip install --user --upgrade httpie
 pip install --user --upgrade aws-shell
+pip install --user --upgrade markdown
