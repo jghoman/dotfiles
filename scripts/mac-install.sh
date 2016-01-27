@@ -11,6 +11,7 @@ sudo port install \
     ccache \
     clang-3.4 \
     cmake \
+    cwdiff \
     git \
     glances \
     htop \
