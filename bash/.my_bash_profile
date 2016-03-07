@@ -79,6 +79,8 @@ alias gpom="git push origin master"
 alias gcdf="git clean -d -f"
 alias gd="git diff --no-prefix"
 
+alias gti=git
+
 # move around
 alias work="pushd ~/work"
 alias repos="pushd ~/repos"
@@ -103,6 +105,7 @@ alias ......="cd ../../../../.."
 
 # hadoop hadoop hadoop
 runspecifictests() {
+  rm -f results.txt
   for t in $@; do mvn -Dtest=$t test | tee -a results.txt;done
 }
 
@@ -119,7 +122,17 @@ alias asfboard="svn checkout --username jghoman https://svn.apache.org/repos/pri
 alias asfhadoopwrite="git clone https://git-wip-us.apache.org/repos/asf/hadoop && pushd hadoop && git branch --track branch-2 origin/branch-2 && popd"
 
 # Docker aliases
-alias dockerdev="docker run  -i -v ~/repos:/home/jghoman/repos -v ~/.m2:/home/jghoman/.m2 -t jghoman/docker-dev-env"
+dockerenv() {
+  eval "$(docker-machine env default)"
+}
+
+zdcleancreated() {
+  docker ps -a | tail -n +2 | sed -n 's/  */ /gp' | cut -d " " -f 1 | xargs docker rm
+}
+
+zdcleanimages() {
+  docker images | grep "<none>" | sed -n 's/  */ /gp' | cut -d " " -f 3 | xargs docker rmi
+}
 
 # detach tmux client
 alias detachtmux="tmux attach -d"
@@ -129,6 +142,10 @@ alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
 
 # nyan in docker
 alias nyan="docker run -it supertest2014/nyan"
+
+qsmvn() {
+  mvn archetype:generate -DgroupId=${1} -DartifactId=${2} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+}
 
 # Piping is fun
 alias hn1="head -n1"
@@ -253,9 +270,12 @@ alias memhog='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | t
 # fetch all the gits!
 alias fetchrepos='pushd ~/repos && for d in */; do pushd $d; if [ -d ".git" ]; then git fetch; fi; popd; done && popd'
 
+# Convert markdown to html quick
+alias m2html='python -m markdown'
+
 # http://alias.sh/copy-folder-remote-server
 function putout() {
-tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
+  tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
 }
 
 # http://alias.sh/copy-public-key-remote-machine-dependency-less
@@ -272,15 +292,40 @@ source ~/dotfiles/bash/bash-git-prompt/gitprompt.sh
 
 # Set Java homes if they are available
 if [ "$OS" = "OSX" ]; then
-  JAVA6_HOME=$(/usr/libexec/java_home -v 1.6)
-  JAVA7_HOME=$(/usr/libexec/java_home -v 1.7)
-  JAVA8_HOME=$(/usr/libexec/java_home -v 1.8)
+  /usr/libexec/java_home -v 1.6 &> /dev/null
+  if [ $? -eq 0 ]; then
+    JAVA6_HOME=$(/usr/libexec/java_home -v 1.6)
+  fi
+
+  /usr/libexec/java_home -v 1.7 &> /dev/null
+  if [ $? -eq 0 ]; then
+    JAVA7_HOME=$(/usr/libexec/java_home -v 1.7)
+  fi
+
+  /usr/libexec/java_home -v 1.8 &> /dev/null
+  if [ $? -eq 0 ]; then
+    JAVA8_HOME=$(/usr/libexec/java_home -v 1.8)
+  fi
 fi
 
-if [ -d ~/bin/go ]; then
-  export GOROOT=~/bin/go
-  export PATH=$GOROOT/bin:$PATH
-  export GOPATH=~/.gocode
+if [ ! -d ~/gocode ]; then
+  mkdir ~/gocode
 fi
+
+export GOPATH=~/gocode
 
 export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
+
+export AWS_REGIONS="us-east-1 us-west-2 us-west-1 eu-west-1"
+
+function venv()
+{
+  if [ -d "venv" ]; then
+    source venv/bin/activate
+  fi
+}
+
+# Add python bins if they're around
+if [ -d ~/Library/Python/2.7/bin ]; then
+  export PATH=$PATH:~/Library/Python/2.7/bin
+fi

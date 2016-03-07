@@ -1,7 +1,7 @@
 config-files
 ============
 
-Central location for config files and scripts relating thereto.
+Central location for sundry config files and scripts relating thereto.
 
 To clone:
 

@@ -251,3 +251,6 @@ endif
 " Use v to expand visual selection
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
+
+" avsc == json
+autocmd BufNewFile,BufRead *.avsc set ft=javascript
