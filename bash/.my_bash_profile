@@ -151,6 +151,7 @@ alias tn1="tail -n1"
 # Vim, all day  long
 alias v="vim"
 
+alias tree="tree -C"
 # useful functions
 crgogitignore() {
   echo "target/*
