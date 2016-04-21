@@ -44,7 +44,7 @@ alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
 alias ls="command ls ${colorflag} -F"
 
 # better tree
-alias tl="tree -hs | less"
+alias tl="tree -nhs | less"
 
 alias zmvn="mvn -DskipTests=true clean dependency:go-offline verify package"
 
@@ -154,7 +154,6 @@ alias tn1="tail -n1"
 # Vim, all day  long
 alias v="vim"
 
-alias tree="tree -C"
 # useful functions
 crgogitignore() {
   echo "target/*
