@@ -1,3 +1,8 @@
+
+if test -d "/opt/local/bin"
+  set -gx PATH /opt/local/bin/ $PATH
+end
+
 # random time savers
 alias fucking "sudo"
 alias gcm "git checkout master"
