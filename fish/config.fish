@@ -35,6 +35,34 @@ function venv
   end
 end
 
+function zmvn
+  mvn -DskipTests=true clean dependency:go-offline verify package
+end
+
+function tl
+  tree -nhs | less
+end
+
+function dockerenv
+  eval (docker-machine env --shell fish)
+end
+
+function zdcleancreated
+  docker ps -a | tail -n +2 | sed -n 's/  */ /gp' | cut -d " " -f 1 | xargs docker rm
+end
+
+function zdcleanimages
+  docker images | grep "<none>" | sed -n 's/  */ /gp' | cut -d " " -f 3 | xargs docker rmi
+end
+
+function jarsinm2
+  find ~/.m2 -name "*.jar" | wc -l
+end
+
+function f
+  find . -name $argv
+end
+
 function fish_prompt
   set last_status $status
 
