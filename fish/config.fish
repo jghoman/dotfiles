@@ -18,7 +18,7 @@ set green (set_color green)
 set red (set_color red)
 set gray (set_color -o black)
 
-# Fish git prompt
+# Fish git prompt stuff
 set __fish_git_prompt_showdirtystate 'yes'
 set __fish_git_prompt_showstashstate 'yes'
 set __fish_git_prompt_showuntrackedfiles 'yes'
@@ -27,6 +27,13 @@ set __fish_git_prompt_color_branch yellow
 set __fish_git_prompt_color_upstream_ahead green
 set __fish_git_prompt_color_upstream_behind red
 set __fish_git_prompt_show_informative_status 'yes'
+
+# venv
+function venv
+  if test -d "venv"
+     source venv/bin/activate.fish
+  end
+end
 
 function fish_prompt
   set last_status $status
@@ -39,3 +46,5 @@ function fish_prompt
 
   set_color normal
 end
+
+
