@@ -329,3 +329,8 @@ function venv()
 if [ -d ~/Library/Python/2.7/bin ]; then
   export PATH=$PATH:~/Library/Python/2.7/bin
 fi
+
+if [ -d ~/spark/latest ]; then
+  export PATH=~/spark/latest/bin:$PATH
+  export SPARK_HOME=~/spark/latest
+fi
