@@ -333,4 +333,5 @@ fi
 if [ -d ~/spark/latest ]; then
   export PATH=~/spark/latest/bin:$PATH
   export SPARK_HOME=~/spark/latest
+  export IPYTHON=1
 fi
