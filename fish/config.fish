@@ -16,6 +16,9 @@ alias gd "git diff --no-prefix"
 
 alias gti git
 
+alias make "make -j8"
+
+
 set normal (set_color normal)
 set magenta (set_color magenta)
 set yellow (set_color yellow)
