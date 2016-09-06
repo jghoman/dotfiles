@@ -149,6 +149,14 @@ qsmvn() {
   mvn archetype:generate -DgroupId=${1} -DartifactId=${2} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 }
 
+zdirssi() {
+  docker run -it --name my-irssi -e TERM -u $(id -u):$(id -g) \
+    --rm=true \
+    -v $HOME/.irssi:/home/user/.irssi:ro \
+    -v /etc/localtime:/etc/localtime:ro \
+    irssi
+}
+
 # Piping is fun
 alias hn1="head -n1"
 alias tn1="tail -n1"
@@ -316,7 +324,7 @@ fi
 
 export GOPATH=~/gocode
 
-export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
+#export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
 
 export AWS_REGIONS="us-east-1 us-west-2 us-west-1 eu-west-1"
 
