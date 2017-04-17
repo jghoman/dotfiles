@@ -280,7 +280,7 @@ fi
 alias memhog='ps -o time,ppid,pid,nice,pcpu,pmem,user,comm -A | sort -n -k 6 | tail -15'
 
 # fetch all the gits!
-alias fetchrepos='pushd ~/repos && for d in */; do pushd $d; if [ -d ".git" ]; then git fetch; fi; popd; done && popd'
+alias fetchrepos='pushd ~/repos && for d in */; do pushd $d; if [ -d ".git" ]; then git fetch; git gc; fi; popd; done && popd'
 
 # Convert markdown to html quick
 alias m2html='python -m markdown'
