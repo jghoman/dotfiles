@@ -337,6 +337,8 @@ function venv()
   fi
 }
 
+alias py3venv="virtualenv -p python3 venv"
+
 # Add python bins if they're around
 if [ -d ~/Library/Python/2.7/bin ]; then
   export PATH=$PATH:~/Library/Python/2.7/bin
