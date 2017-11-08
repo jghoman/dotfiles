@@ -115,6 +115,8 @@ runspecifictests() {
 
 alias hgrepFail="grep Failures results.txt | grep \"in \""
 
+alias decodeaws="aws sts decode-authorization-message --encoded-message "
+
 # clone common repos
 alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/samza.git"
 alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
@@ -351,3 +353,7 @@ if [ -d ~/spark/latest ]; then
   export SPARK_HOME=~/spark/latest
   export IPYTHON=1
 fi
+
+function kill_parental_controld() {
+  sudo pkill -STOP parentalcontrolsd
+}
