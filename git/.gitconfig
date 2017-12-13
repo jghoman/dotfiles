@@ -12,9 +12,10 @@
   br = branch
   cm = checkout master
   pl = pull -rebase
+  branc = branch
 [color]
   ui = true
 [core]
   editor = vim
   pager = /usr/bin/less
-	excludesfile = /Users/jahoman/.gitignore_global
+	excludesfile = ~/.gitignore_global
