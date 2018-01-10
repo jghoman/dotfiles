@@ -357,3 +357,6 @@ fi
 function kill_parental_controld() {
   sudo pkill -STOP parentalcontrolsd
 }
+
+# In case dotnet is listening
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
