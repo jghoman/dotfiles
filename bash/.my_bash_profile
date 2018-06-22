@@ -292,6 +292,14 @@ function putout() {
   tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
 }
 
+function puttmux() {
+  scp -i ~/.aws/jakob.pem .tmux.conf ubuntu@${1}:~/
+}
+
+function ec2ssh() {
+  ssh -i ~/.aws/jakob.pem ubuntu@${1}
+}
+
 # http://alias.sh/copy-public-key-remote-machine-dependency-less
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
@@ -360,3 +368,4 @@ function kill_parental_controld() {
 
 # In case dotnet is listening
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
