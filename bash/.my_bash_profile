@@ -370,3 +370,6 @@ function kill_parental_controld() {
 # In case dotnet is listening
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
+# Make it easy to change git emails
+alias ggmail="git config user.email \"jghoman@gmail.com\""
+alias gapache="git config user.email \"jghoman@apache.org\""
