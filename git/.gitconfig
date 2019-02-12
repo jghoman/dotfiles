@@ -19,3 +19,4 @@
   editor = vim
   pager = /usr/bin/less
 	excludesfile = ~/.gitignore_global
+	trustctime = false
