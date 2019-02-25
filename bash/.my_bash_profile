@@ -101,6 +101,8 @@ gitbranch() {
 alias pu="pushd"
 alias po="popd"
 
+alias ul="ultralist"
+
 # Moving around & all that jazz
 alias back='cd $OLDPWD'
 alias ..="cd .."
