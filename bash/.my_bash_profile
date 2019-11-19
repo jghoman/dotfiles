@@ -377,3 +377,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # Make it easy to change git emails
 alias ggmail="git config user.email \"jghoman@gmail.com\""
 alias gapache="git config user.email \"jghoman@apache.org\""
+
+# Collapse multiple whitespaces to a single whitespace
+alias collapsewhitespace="tr -s \" \""
