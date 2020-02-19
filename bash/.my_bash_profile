@@ -375,3 +375,7 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # Make it easy to change git emails
 alias ggmail="git config user.email \"jghoman@gmail.com\""
 alias gapache="git config user.email \"jghoman@apache.org\""
+
+# Turn off brew analytics
+export HOMEBREW_NO_ANALYTICS=1
+
