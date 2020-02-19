@@ -101,6 +101,8 @@ gitbranch() {
 alias pu="pushd"
 alias po="popd"
 
+alias ul="ultralist"
+
 # Moving around & all that jazz
 alias back='cd $OLDPWD'
 alias ..="cd .."
@@ -379,3 +381,5 @@ alias gapache="git config user.email \"jghoman@apache.org\""
 # Turn off brew analytics
 export HOMEBREW_NO_ANALYTICS=1
 
+# Collapse multiple whitespaces to a single whitespace
+alias collapsewhitespace="tr -s \" \""
