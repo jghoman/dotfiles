@@ -84,6 +84,7 @@ alias gca="git commit -a"
 alias gpom="git push origin master"
 alias gcdf="git clean -d -f"
 alias gd="git diff --no-prefix"
+alias gpbo='git push origin `git branch --show-current`'
 
 alias gti=git
 
@@ -319,19 +320,19 @@ source ~/dotfiles/bash/bash-git-prompt/gitprompt.sh
 
 # Set Java homes if they are available
 if [ "$OS" = "OSX" ]; then
-  /usr/libexec/java_home -v 1.6 &> /dev/null
-  if [ $? -eq 0 ]; then
-    JAVA6_HOME=$(/usr/libexec/java_home -v 1.6)
-  fi
-
-  /usr/libexec/java_home -v 1.7 &> /dev/null
-  if [ $? -eq 0 ]; then
-    JAVA7_HOME=$(/usr/libexec/java_home -v 1.7)
-  fi
-
   /usr/libexec/java_home -v 1.8 &> /dev/null
   if [ $? -eq 0 ]; then
     JAVA8_HOME=$(/usr/libexec/java_home -v 1.8)
+    alias java8='export JAVA_HOME=$JAVA_8_HOME'
+    export JAVA_HOME=$JAVA_8_HOME
+  fi
+
+  /usr/libexec/java_home -v 11  &> /dev/null
+  if [ $? -eq 0 ]; then
+    JAVA11_HOME=$(/usr/libexec/java_home -v 11)
+    export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+    alias java11='export JAVA_HOME=$JAVA_11_HOME'
+    export JAVA_HOME=$JAVA_11_HOME
   fi
 fi
 
