@@ -1,3 +1,5 @@
+# Jakob - don't forget to export GIT_COMMITTER_EMAIL
+
 [user]
 	name = Jakob Homan
 [alias]
