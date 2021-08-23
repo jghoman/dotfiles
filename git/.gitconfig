@@ -14,10 +14,21 @@
   cm = checkout master
   pl = pull -rebase
   branc = branch
+  ec = commit --allow-empty
 [color]
   ui = true
 [core]
   editor = vim
   pager = /usr/bin/less
 	excludesfile = ~/.gitignore_global
-	trustctime = false
+  trustctime = false
+
+[url "git@github.com:"]
+insteadof = https://github.com/
+[pull]
+	rebase = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
