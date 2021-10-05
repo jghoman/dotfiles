@@ -340,7 +340,11 @@ if [ ! -d ~/gocode ]; then
   mkdir ~/gocode
 fi
 
-export GOPATH=~/gocode
+export GOPATH=~/go
+
+if [ -d ~/go/bin ]; then
+ export PATH=$PATH:~/go/bin
+fi
 
 # add up a sum of numbers: | tr -s " " | cut -d " " -f 3 | awk '{s+=$1} END { print s}'
 
