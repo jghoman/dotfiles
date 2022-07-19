@@ -25,13 +25,6 @@ fi
 
 alias s3ls="aws s3 ls"
 
-alias dc="docker-compose"
-
-alias bubu="brew update && brew upgrade"
-
-# ack has a weird name on osx for some reason
-# alias ack="ack-5.16"
-
 # force tmux to use 256 colors
 alias tmux="tmux -2"
 
@@ -50,28 +43,6 @@ alias ls="command ls ${colorflag} -F"
 # better tree
 alias tl="tree -nhs | less"
 
-alias zmvn="mvn -DskipTests=true clean dependency:go-offline verify package"
-
-# from: http://natelandau.com/my-mac-osx-bash_profile/
-#   ---------------------------
-#   6.  NETWORKING
-#   ---------------------------
-
-alias myip='curl ip.appspot.com'                    # myip:         Public facing IP Address
-alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
-alias flushDNS='dscacheutil -flushcache'            # flushDNS:     Flush out the DNS Cache
-alias lsock='sudo /usr/sbin/lsof -i -P'             # lsock:        Display open sockets
-alias lsockU='sudo /usr/sbin/lsof -nP | grep UDP'   # lsockU:       Display only open UDP sockets
-alias lsockT='sudo /usr/sbin/lsof -nP | grep TCP'   # lsockT:       Display only open TCP sockets
-alias ipInfo0='ipconfig getpacket en0'              # ipInfo0:      Get info on connections for en0
-alias ipInfo1='ipconfig getpacket en1'              # ipInfo1:      Get info on connections for en1
-alias openPorts='sudo lsof -i | grep LISTEN'        # openPorts:    All listening connections
-alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rules inc/ blocked IPs
-
-#   cleanupDS:  Recursively delete .DS_Store files
-#   -------------------------------------------------------------------
-alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
-
 # random time savers
 alias fucking="sudo"
 alias gcm="git checkout master"
@@ -85,13 +56,6 @@ alias gd="git diff --no-prefix"
 alias gpbo='git push origin `git branch --show-current`'
 
 alias gti=git
-
-# move around
-alias work="pushd ~/work"
-alias repos="pushd ~/repos"
-alias samza="pushd ~/repos/samza"
-alias dotfiles="pushd ~/dotfiles"
-alias downloads="pushd ~/downloads"
 
 gitbranch() {
   git branch --track $1 origin/$1
@@ -110,25 +74,10 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
-# hadoop hadoop hadoop
-runspecifictests() {
-  rm -f results.txt
-  for t in $@; do mvn -Dtest=$t test | tee -a results.txt;done
-}
-
-alias hgrepFail="grep Failures results.txt | grep \"in \""
-
-alias decodeaws="aws sts decode-authorization-message --encoded-message "
-
-# clone common repos
-alias clonesamza="git clone https://git-wip-us.apache.org/repos/asf/samza.git"
-alias clonedotfiles="git clone git@github.com:jghoman/dotfiles.git"
-
 alias asfauth="svn --username jghoman co https://svn.apache.org/repos/infra/infrastructure/trunk/subversion/authorization/"
 alias asfincubator="svn --username jghoman co https://svn.apache.org/repos/asf/incubator/public/trunk incubator"
 alias asfpublishincubator="open https://cms.apache.org/incubator/publish"
 alias asfboard="svn checkout --username jghoman https://svn.apache.org/repos/private/foundation/board"
-alias asfhadoopwrite="git clone https://git-wip-us.apache.org/repos/asf/hadoop && pushd hadoop && git branch --track branch-2 origin/branch-2 && popd"
 
 # Docker aliases
 dockerenv() {
@@ -146,41 +95,13 @@ zdcleanimages() {
 # detach tmux client
 alias detachtmux="tmux attach -d"
 
-# I seem to have a pathologic need to know this...
-alias jarsinm2="find ~/.m2 -name *.jar | wc -l"
-
-# nyan in docker
-alias nyan="docker run -it supertest2014/nyan"
-
 qsmvn() {
   mvn archetype:generate -DgroupId=${1} -DartifactId=${2} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
-}
-
-zdirssi() {
-  docker run -it --name my-irssi -e TERM -u $(id -u):$(id -g) \
-    --rm=true \
-    -v $HOME/.irssi:/home/user/.irssi:ro \
-    -v /etc/localtime:/etc/localtime:ro \
-    irssi
 }
 
 # Piping is fun
 alias hn1="head -n1"
 alias tn1="tail -n1"
-
-# Vim, all day  long
-alias v="vim"
-
-# useful functions
-crgogitignore() {
-  echo "target/*
-Cargo.lock" >> .gitignore
-  git add .gitignore
-}
-
-mvnqs() {
-  mvn archetype:generate -DgroupId=${1} -DartifactId=${2} -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
-}
 
 asfclone() {
   git clone https://github.com/apache/${1}.git
@@ -235,35 +156,6 @@ hg () {
    fi
 }
 
-# split window horizontally and run htop
-function thtop {
-  tmux split-window -d "htop"
-}
-
-# xtract - this one has been making all the rounds
-# xtract archives -- usage: xtract <file>
-# Renaming to xtract cause it's faster to autocomplete.
-xtract () {
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2) tar xjf $1 ;;
-      *.tar.gz) tar xzf $1 ;;
-      *.bz2) bunzip2 $1 ;;
-      *.rar) unrar e $1 ;;
-      *.gz) gunzip $1 ;;
-      *.tar) tar xf $1 ;;
-      *.tbz2) tar xjf $1 ;;
-      *.tgz) tar xzf $1 ;;
-      *.zip) unzip "$1" ;;
-      *.Z) uncompress $1 ;;
-      *.7z) 7z x $1 ;;
-      *) echo "'$1' cannot be extracted via extract()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
-
 # Use vimpager if it's available
 if type vimpager >/dev/null 2>&1; then
   export PAGER=vimpager
@@ -296,14 +188,6 @@ function putout() {
   tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
 }
 
-function puttmux() {
-  scp -i ~/.aws/jakob.pem .tmux.conf ubuntu@${1}:~/
-}
-
-function ec2ssh() {
-  ssh -i ~/.aws/jakob.pem ubuntu@${1}
-}
-
 # http://alias.sh/copy-public-key-remote-machine-dependency-less
 function authme() {
   ssh "$1" 'mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys' \
@@ -332,21 +216,12 @@ if [ "$OS" = "OSX" ]; then
   export JAVA_HOME=$(/usr/libexec/java_home)
 fi
 
-if [ ! -d ~/gocode ]; then
-  mkdir ~/gocode
-fi
-
-export GOPATH=~/go
-
 if [ -d ~/go/bin ]; then
  export PATH=$PATH:~/go/bin
 fi
 
 # add up a sum of numbers: | tr -s " " | cut -d " " -f 3 | awk '{s+=$1} END { print s}'
 
-#export JAVA_TOOL_OPTIONS="-Djava.awt.headless=true"
-
-export AWS_REGIONS="us-east-1 us-west-2 us-west-1 eu-west-1"
 
 function venv()
 {
@@ -361,16 +236,6 @@ alias py3venv="virtualenv -p python3 venv"
 if [ -d ~/Library/Python/3.7/bin ]; then
   export PATH=$PATH:~/Library/Python/3.7/bin
 fi
-
-if [ -d ~/spark/latest ]; then
-  export PATH=~/spark/latest/bin:$PATH
-  export SPARK_HOME=~/spark/latest
-  export IPYTHON=1
-fi
-
-function kill_parental_controld() {
-  sudo pkill -STOP parentalcontrolsd
-}
 
 # In case dotnet is listening
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -412,6 +277,4 @@ starttmux() {
     tmux set-window-option synchronize-panes on > /dev/null
 
 }
-
-# HOSTS=${HOSTS:=$*}
 
