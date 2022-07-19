@@ -1,4 +1,6 @@
 # https://www.kevinkuszyk.com/2018/12/10/git-tips-6-using-git-with-multiple-email-addresses/
+[includeIf "gitdir:~/dotfiles/"]
+    path = .gitconfig-home
 [includeIf "gitdir:~/repos/"]
     path = .gitconfig-home
 [includeIf "gitdir:~/src/"]
