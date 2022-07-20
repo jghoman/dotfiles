@@ -5,6 +5,8 @@
     path = .gitconfig-home
 [includeIf "gitdir:~/src/"]
     path = .gitconfig-work
+[includeIf "gitdir:~/work/"]
+    path = .gitconfig-work
 
 [user]
 	name = Jakob Homan
