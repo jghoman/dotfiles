@@ -1,0 +1,19 @@
+{
+    "workbench.colorTheme": "Night Owl",
+    "telemetry.telemetryLevel": "off",
+    "security.workspace.trust.untrustedFiles": "open",
+    "files.autoSave": "onFocusChange",
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "extensions.ignoreRecommendations": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.fontSize": 13,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.guides.highlightActiveBracketPair": true,
+
+}
