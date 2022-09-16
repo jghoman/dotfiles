@@ -25,8 +25,14 @@ set wildmenu
 set wildmode=list:longest,full
 
 set guifont=Inconsolata:h15
-set background=light
-colorscheme mayansmoke
+set background=dark
+
+" If you have vim >=8.0 or Neovim >= 0.1.5
+if (has("termguicolors"))
+ set termguicolors
+endif
+
+colorscheme night-owl
 filetype plugin indent on
 
 " Remap default leader to space
@@ -254,3 +260,5 @@ vmap <C-v> <Plug>(expand_region_shrink)
 
 " avsc == json
 autocmd BufNewFile,BufRead *.avsc set ft=javascript
+
+highlight Comment cterm=italic
