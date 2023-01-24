@@ -269,3 +269,8 @@ starttmux() {
 }
 
 alias alertdone="osascript -e 'display notification \"All done\" with title \"Hey You!\" subtitle \"Guess what\"'"
+
+# https://stackoverflow.com/a/5188364
+alias oldgit="git branch --sort=committerdate"
+alias gold="git for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
+"
