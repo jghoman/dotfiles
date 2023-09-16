@@ -190,19 +190,10 @@ Hostname="\$(hostname -s)"
 GIT_PROMPT_END_USER=" \n${Hostname} ${White}${Time12a}${ResetColor} $ "
 source ~/dotfiles/bash/bash-git-prompt/gitprompt.sh
 
-# /usr/libexec/java_home is completely borked: https://developer.apple.com/forums/thread/666681
-# Hard code for now...
 if [ "$OS" = "OSX" ]; then
-  TEMP_JAVA_HOME=$JAVA_HOME
-  unset JAVA_HOME
-  /usr/libexec/java_home -v 1.8 &> /dev/null
-  if [ $? -eq 0 ]; then
-    JAVA8_HOME=$(/usr/libexec/java_home -v 1.8)
-    alias java8='export JAVA_HOME=$JAVA8_HOME'
-  fi
-  export JAVA_HOME=$TEMP_JAVA_HOME
+export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+alias java11='export JAVA_HOME=$JAVA_11_HOME'
 
-  # So, having done the above, let's smash JAVA_HOME... so dumb
   export JAVA_HOME=$(/usr/libexec/java_home)
 fi
 
