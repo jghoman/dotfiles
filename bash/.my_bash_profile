@@ -190,13 +190,6 @@ Hostname="\$(hostname -s)"
 GIT_PROMPT_END_USER=" \n${Hostname} ${White}${Time12a}${ResetColor} $ "
 source ~/dotfiles/bash/bash-git-prompt/gitprompt.sh
 
-if [ "$OS" = "OSX" ]; then
-export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-
-  export JAVA_HOME=$(/usr/libexec/java_home)
-fi
-
 if [ -d ~/go/bin ]; then
  export PATH=$PATH:~/go/bin
 fi
