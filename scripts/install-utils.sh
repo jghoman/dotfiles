@@ -16,3 +16,8 @@ brew install ncdu \
 echo "Installing casks."
 
 brew install --cask slack spotify "visual-studio-code"
+
+
+i
+cargo install \
+  jnv # interactive json explorer
