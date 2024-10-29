@@ -269,3 +269,6 @@ starttmux() {
 }
 
 alias alertdone="osascript -e 'display notification \"All done\" with title \"Hey You!\" subtitle \"Guess what\"'"
+
+# Edit directly in vim.
+alias ev="vim +':normal Go'"
