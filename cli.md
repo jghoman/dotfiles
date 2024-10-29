@@ -3,7 +3,7 @@
 List started from this [very cool video](https://www.youtube.com/watch?v=haitmoSyTls).
 
 * [sd](https://github.com/chmln/sd) - better sed/awk
-* [df](https://github.com/sharkdp/fd) - improved find
+* [fd](https://github.com/sharkdp/fd) - improved find
 * [lsd](https://github.com/Peltoche/lsd) - improved ls
 * [exa](https://github.com/ogham/exa) - improved ls
 * [zoxide](https://github.com/ajeetdsouza/zoxide) - improved cd
