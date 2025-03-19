@@ -1,5 +1,0 @@
-* iterm2 - brew cask
-* font: firaCode - https://github.com/tonsky/FiraCode - in the dotfiles
-  directory
-* night owl theme for everything - https://github.com/sdras/night-owl-vscode-theme
-* fixing italics in term, vim and tmux: https://alexpearce.me/2014/05/italics-in-iterm2-vim-tmux/ - yeah, don't do this. 
