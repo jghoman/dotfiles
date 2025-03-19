@@ -10,11 +10,11 @@ update-screenshot-location-and-type:
     killall SystemUIServer
 
 install-cli-programs:
-    brew install helix tig htop tree ncdu awscli bat coreutils jq the_silver_searcher btop
+    brew install helix tig htop tree ncdu awscli bat coreutils jq the_silver_searcher btop just rust
 
 [group('mac')]
 install-mac-home-apps:
-    brew install --cask handbrake visual-studio-code
+    brew install --cask handbrake visual-studio-code steam
 
 install-tailscale:
     brew install tailscale
