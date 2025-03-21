@@ -21,3 +21,7 @@ install-tailscale:
 
 install-brew:
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+perf-test-server:
+    brew install iperf3
+    iperf3 -s -f M
