@@ -1,4 +1,5 @@
 default:
+<<<<<<< HEAD
     just --list
 
 
@@ -39,3 +40,10 @@ create-openwebui-pod:
 [group('podman')]
 start-openwebui-pod:
     podman start open-webui
+||||||| parent of 3d76a9f (Add justfile.)
+=======
+    @just --list
+
+cheat CMD:
+    curl -sS cheat.sh/{{CMD}} | bat 
+>>>>>>> 3d76a9f (Add justfile.)
