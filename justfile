@@ -27,18 +27,24 @@ perf-test-server:
     iperf3 -s -f M
 
 [group('podman')]
-create-openwebui-pod:
+create-open-webui-pod:
     podman create -p 127.0.0.1:3000:8080 \
-    --add-host=localhost:127.0.0.1 \
-    --env 'OLLAMA_BASE_URL=http://localhost:11434' \
+    --env 'OLLAMA_BASE_URL=http://host.containers.internal:11434' \
     --env 'ANONYMIZED_TELEMETRY=False' \
     -v open-webui:/app/backend/data \
-    --label io.containers.autoupdate=registry \
+    --label io.containers.autoupdate=image \
     --name open-webui ghcr.io/open-webui/open-webui:main
 
 [group('podman')]
-start-openwebui-pod:
+start-open-webui-pod:
     podman start open-webui
+
+[group('podman')]
+update-open-webui-pod: && create-open-webui-pod start-open-webui-pod
+    podman stop -i open-webui
+    podman rm -i open-webui
+    podman pull ghcr.io/open-webui/open-webui:main
+
 
 cheat CMD:
     curl -sS cheat.sh/{{CMD}} | bat 
