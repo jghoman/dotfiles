@@ -51,4 +51,4 @@ cheat CMD:
 
 [no-cd]
 duckdb-here-via-podman:
-    podman run -it -v "$(pwd):/data" datacatering/duckdb:v1.2.1
+    podman run -it -v "$(pwd):/data" datacatering/duckdb:v1.2.2
