@@ -1,1 +1,2 @@
 alias spell="just --justfile=justfile"
+alias b="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo default || echo GitHub)"
