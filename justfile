@@ -9,8 +9,8 @@ update-screenshot-location-and-type:
     defaults write com.apple.screencapture "type" -string "jpg"
     killall SystemUIServer
 
-install-cli-programs:
-    brew install helix tig htop tree ncdu awscli bat coreutils jq the_silver_searcher btop just rust
+install-brew-programs:
+    brew install bundle
 
 [group('mac')]
 install-mac-home-apps:
