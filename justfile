@@ -12,6 +12,9 @@ update-screenshot-location-and-type:
 install-brew-programs:
     brew install bundle
 
+install-oh-my-zsh:
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 [group('mac')]
 install-mac-home-apps:
     brew install --cask handbrake visual-studio-code steam
