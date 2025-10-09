@@ -3,9 +3,9 @@ alias spell="just --justfile=justfile"
 
 alias br="broot"
 alias c="clear"
-alias e="eza"
-alias l="eza"
-alias ls="eza"
+alias e="eza --icons=always --group-directories-first"
+alias l="eza --long --icons=always --group-directories-first"
+alias ls="eza --icons=always --group-directories-first"
 
 alias gb="git checkout -b"
 alias gc="git commit"
