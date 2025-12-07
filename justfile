@@ -385,3 +385,239 @@ rust-quickstart PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+[no-cd]
+[group('coding')]
+node-quickstart PROJECT_NAME:
+    #!/usr/bin/env bash
+
+    set -e
+
+    PROJECT_NAME="{{PROJECT_NAME}}"
+
+    echo "Creating Node.js project '$PROJECT_NAME'..."
+
+    # Create project directory
+    mkdir -p "$PROJECT_NAME"
+    cd "$PROJECT_NAME"
+
+    # Setup mise configuration for Node.js
+    # Using LTS is customary for general projects
+    echo "Setting up mise..."
+    cat <<EOF > .mise.toml
+    [tools]
+    node = "lts"
+    EOF
+    mise trust
+
+    # Install node via mise
+    if command -v mise &> /dev/null; then
+        echo "Installing tools via mise..."
+        set +e # Temporarily allow failure
+        mise install
+        MISE_EXIT_CODE=$?
+        set -e # Re-enable strict mode
+        
+        if [ $MISE_EXIT_CODE -ne 0 ]; then
+            echo "Warning: 'mise install' failed (likely GPG/network issue)."
+            echo "Attempting to proceed with system Node.js..."
+        fi
+    fi
+
+    # Check if node is available (either from mise or system)
+    if ! command -v node &> /dev/null; then
+        echo "Error: 'node' command not found."
+        echo "Please ensure Node.js is installed (via mise or system) to proceed."
+        exit 1
+    fi
+
+    # Initialize npm project
+    echo "Initializing npm project..."
+    # -y defaults everything
+    npm init -y
+
+    # Modify package.json to be more modern (ES modules) and have correct scripts
+    # We use a temporary file to edit package.json using jq if available, or just sed/cat.
+    # To be safe without assuming jq, we can just overwrite package.json or use node to edit it.
+
+    node -e "
+    const fs = require('fs');
+    const pkg = require('./package.json');
+    pkg.name = '$PROJECT_NAME';
+    pkg.type = 'module';
+    pkg.main = 'src/index.js';
+    pkg.scripts = {
+    test: 'node --test',
+    start: 'node src/index.js'
+    };
+    fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+    "
+
+    # Create source directory and file
+    mkdir -p src
+    cat <<EOF > src/index.js
+    console.log("Just one more thing.");
+    EOF
+
+    # Create test file
+    # Using native Node.js test runner (available in Node 18+) as it requires no dependencies
+    # and is becoming customary for simple projects.
+    mkdir -p tests
+    cat <<EOF > tests/index.test.js
+    import { test } from 'node:test';
+    import assert from 'node:assert';
+
+    test('the simplest test in the world', () => {
+    assert.strictEqual(1, 1);
+    });
+    EOF
+
+    # Create justfile
+    cat <<EOF > justfile
+    default:
+        @just --list
+
+    build:
+        npm install
+
+    test:
+        npm test
+
+    clean:
+        rm -rf node_modules
+
+    run:
+        npm start
+    EOF
+
+    echo "Project setup complete at $(pwd)"
+
+[no-cd]
+[group('coding')]
+readme-quickstart:
+    #!/usr/bin/env bash
+
+    set -e
+
+    PROJECT_NAME=$(basename "$(pwd)")
+    README_FILE="README.md"
+
+    echo "Generating README.md for '$PROJECT_NAME'..."
+
+    # Detect project type
+    IS_JAVA=false
+    IS_PYTHON=false
+    IS_RUST=false
+    IS_NODE=false
+
+    if [[ -f build.gradle.kts ]] || [[ -f build.gradle ]] || [[ -f pom.xml ]]; then
+        IS_JAVA=true
+    fi
+
+    if [[ -f pyproject.toml ]]; then
+        IS_PYTHON=true
+    fi
+
+    if [[ -f Cargo.toml ]]; then
+        IS_RUST=true
+    fi
+
+    if [[ -f package.json ]]; then
+        IS_NODE=true
+    fi
+
+    HAS_MISE=false
+    if [[ -f .mise.toml ]]; then
+        HAS_MISE=true
+    fi
+
+    # Build content
+    cat <<EOF > "$README_FILE"
+    # $PROJECT_NAME
+
+    ## Introduction
+
+    Welcome to **$PROJECT_NAME**. This project is a software application designed to do... well, *just one more thing*.
+
+    ## Requirements
+
+    To work with this project, you will need the following tools installed:
+
+    - **[Just](https://github.com/casey/just)**: Used as the command runner for build, test, and execution tasks.
+    EOF
+
+    if [ "$HAS_MISE" = true ]; then
+        echo "- **[mise](https://mise.jdx.dev/)**: Recommended. It will automatically install and manage the correct versions of the tools listed below (run \`mise install\`)." >> "$README_FILE"
+    fi
+
+    # Add language specific requirements
+    if [ "$IS_JAVA" = true ]; then
+        if [ "$HAS_MISE" = true ]; then
+            echo "- **Java JDK**: Provided by mise." >> "$README_FILE"
+        else
+            echo "- **Java JDK**: Ensure you have a compatible Java Development Kit installed." >> "$README_FILE"
+        fi
+        echo "- **Gradle**: The build system (wrapper provided)." >> "$README_FILE"
+    fi
+
+    if [ "$IS_PYTHON" = true ]; then
+        if [ "$HAS_MISE" = true ]; then
+            echo "- **Python**: Provided by mise (or managed via uv)." >> "$README_FILE"
+        else
+            echo "- **Python**: A modern Python version." >> "$README_FILE"
+        fi
+        echo "- **[uv](https://github.com/astral-sh/uv)**: Used for Python project and dependency management." >> "$README_FILE"
+    fi
+
+    if [ "$IS_RUST" = true ]; then
+        # Rust is usually managed by rustup, not typically mise (though mise can do it).
+        # Our script didn't set up mise for Rust.
+        echo "- **Rust**: The Rust programming language (install via [rustup](https://rustup.rs/))." >> "$README_FILE"
+        echo "- **Cargo**: The Rust package manager (included with Rust)." >> "$README_FILE"
+    fi
+
+    if [ "$IS_NODE" = true ]; then
+        if [ "$HAS_MISE" = true ]; then
+            echo "- **Node.js**: Provided by mise." >> "$README_FILE"
+        else
+            echo "- **Node.js**: The JavaScript runtime." >> "$README_FILE"
+        fi
+        echo "- **npm**: The Node package manager." >> "$README_FILE"
+    fi
+
+
+    cat <<EOF >> "$README_FILE"
+
+    ## Building and Running
+
+    This project uses \`just\` to manage common development tasks.
+
+    ### Available Commands
+
+    - **Build the project:**
+    \`\`\`bash
+    just build
+    \`\`\`
+
+    - **Run the application:**
+    \`\`\`bash
+    just run
+    \`\`\`
+
+    - **Run tests:**
+    \`\`\`bash
+    just test
+    \`\`\`
+
+    - **Clean build artifacts:**
+    \`\`\`bash
+    just clean
+    \`\`\`
+
+    - **List all available recipes:**
+    \`\`\`bash
+    just --list
+    \`\`\`
+
+    EOF
+
+    echo "README.md created successfully."
