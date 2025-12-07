@@ -59,6 +59,7 @@ duckdb-here-via-podman:
 link-docker:
     brew link docker
 
+[no-cd]
 [group('coding')]
 java-quickstart JAVA_VERSION PROJECT_NAME:
     #!/usr/bin/env bash
@@ -107,6 +108,7 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
     [tools]
     java = "$MISE_VERSION"
     EOF
+    mise trust
 
     # Setup project structure
     echo "Creating project structure..."
@@ -223,4 +225,107 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
         echo "Please ensure Gradle is installed and run 'gradle wrapper' manually."
     fi
 
-    echo "Project setup complete at $(pwd)"  
+    echo "Project setup complete at $(pwd)"
+
+[no-cd]
+[group('coding')]
+python-quickstart PROJECT_NAME:
+    #!/usr/bin/env bash
+
+    set -e
+
+    PROJECT_NAME="{{PROJECT_NAME}}"
+    # Default to a modern Python version
+    PYTHON_VERSION="3.12"
+
+    echo "Creating project '$PROJECT_NAME' with Python $PYTHON_VERSION using uv..."
+
+    # Create project directory
+    mkdir -p "$PROJECT_NAME"
+    cd "$PROJECT_NAME"
+
+    # Setup mise to ensure uv is available
+    echo "Setting up mise..."
+    # We just need uv to start with.
+    cat <<EOF > .mise.toml
+    [tools]
+    uv = "latest"
+    python = "$PYTHON_VERSION"
+    EOF
+    mise trust
+
+    # Install tools via mise
+    if command -v mise &> /dev/null; then
+        echo "Installing tools via mise..."
+        mise install
+    fi
+
+    # Initialize uv project
+    echo "Initializing uv project..."
+    # We use 'uv' from the path, which mise should have set up, or system uv.
+    # We explicitly set the python version for the project.
+    uv init --python "$PYTHON_VERSION" --name "$PROJECT_NAME" --app --package --vcs none .
+
+    # Add pytest as dev dependency
+    echo "Adding dependencies..."
+    uv add --dev pytest
+
+    # Create Main script
+    # uv init creates 'hello.py' or 'main.py' depending on version/flags, usually 'hello.py' for app?
+    # Let's see what uv init creates. It usually creates a file named after the project or hello.py.
+    # We will force create src/main.py or similar, but uv init default structure is flat or src-based.
+    # --app implies it's an application. --package implies it's a library.
+    # To be safe and standard, we'll check what was created or just overwrite/create 'src/$PROJECT_NAME/main.py' or 'main.py'.
+    # The standard uv init creates 'hello.py'. Let's rename it to main.py and configure the entry point.
+
+    # Actually, let's just create our own main.py and update pyproject.toml if needed.
+    # For simplicity in this script, we'll create 'main.py' in the root or src.
+    # 'uv init --app' creates a 'hello.py'.
+
+    if [ -f "hello.py" ]; then
+        mv hello.py main.py
+    fi
+
+    cat <<EOF > main.py
+    def main():
+        print("Just one more thing.")
+
+    if __name__ == "__main__":
+        main()
+    EOF
+
+    # Update pyproject.toml to point to main:main if it exists?
+    # For a simple script, 'uv run main.py' works.
+    # But 'uv run' by default runs the project command defined in pyproject.toml.
+    # We'll just rely on the justfile for explicit commands.
+
+    # Create test directory and file
+    mkdir -p tests
+    cat <<EOF > tests/test_main.py
+    def test_app():
+        assert True, "The simplest test in the world"
+    EOF
+
+    # Create justfile
+    cat <<EOF > justfile
+    default:
+        @just --list
+
+    build:
+        uv build
+
+    test:
+        uv run pytest
+
+    clean:
+        rm -rf .venv dist .ruff_cache .pytest_cache
+        find . -type d -name "__pycache__" -exec rm -rf {} +
+
+    run:
+        uv run main.py
+
+    coverage:
+        uv run pytest --cov
+    EOF
+
+    echo "Project setup complete at $(pwd)"
