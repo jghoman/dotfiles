@@ -58,3 +58,169 @@ duckdb-here-via-podman:
 
 link-docker:
     brew link docker
+
+[group('coding')]
+java-quickstart JAVA_VERSION PROJECT_NAME:
+    #!/usr/bin/env bash
+
+    set -e
+
+    JAVA_VERSION="{{JAVA_VERSION}}"
+    PROJECT_NAME="{{PROJECT_NAME}}"
+
+    # Helper to extract major Java version
+    function get_major_version() {
+        local ver=$1
+        if [[ "$ver" == "1.8" ]]; then
+            echo "8"
+        else
+            # Extract first number found in the string
+            echo "$ver" | grep -oE '[0-9]+' | head -1
+        fi
+    }
+
+    # Normalize version for mise
+    # If user provides just a number like "8", "11", "25", default to corretto
+    if [[ "$JAVA_VERSION" =~ ^[0-9]+$ ]] || [[ "$JAVA_VERSION" == "1.8" ]]; then
+        # Handle 1.8 special case for mise which usually uses "8"
+        if [[ "$JAVA_VERSION" == "1.8" ]]; then
+            MISE_VERSION="corretto-8"
+            JAVA_INT=8
+        else
+            MISE_VERSION="corretto-$JAVA_VERSION"
+            JAVA_INT=$JAVA_VERSION
+        fi
+    else
+        MISE_VERSION="$JAVA_VERSION"
+        JAVA_INT=$(get_major_version "$JAVA_VERSION")
+    fi
+
+    echo "Creating project '$PROJECT_NAME' with Java $JAVA_INT (using $MISE_VERSION)..."
+
+    # Create project directory
+    mkdir -p "$PROJECT_NAME"
+    cd "$PROJECT_NAME"
+
+    # Setup mise configuration
+    echo "Setting up mise..."
+    cat <<EOF > .mise.toml
+    [tools]
+    java = "$MISE_VERSION"
+    EOF
+
+    # Setup project structure
+    echo "Creating project structure..."
+    mkdir -p src/main/java/com/columbo
+    mkdir -p src/test/java/com/columbo
+
+    # Create Main class
+    cat <<EOF > src/main/java/com/columbo/Main.java
+    package com.columbo;
+
+    public class Main {
+        public static void main(String[] args) {
+            System.out.println("Just one more thing.");
+        }
+    }
+    EOF
+
+    # Create MainTest class
+    cat <<EOF > src/test/java/com/columbo/MainTest.java
+    package com.columbo;
+
+    import org.junit.jupiter.api.Test;
+    import static org.junit.jupiter.api.Assertions.assertTrue;
+
+    public class MainTest {
+        @Test
+        void testApp() {
+            assertTrue(true, "The simplest test in the world");
+        }
+    }
+    EOF
+
+    # Create build.gradle.kts
+    cat <<EOF > build.gradle.kts
+    plugins {
+        application
+        jacoco
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of($JAVA_INT))
+        }
+    }
+
+    application {
+        mainClass.set("com.columbo.Main")
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    }
+
+    tasks.named<Test>("test") {
+        useJUnitPlatform()
+    }
+    EOF
+
+    # Create settings.gradle.kts
+    cat <<EOF > settings.gradle.kts
+    rootProject.name = "$PROJECT_NAME"
+    EOF
+
+    # Create justfile
+    cat <<EOF > justfile
+    default:
+        @just --list
+
+    build:
+        ./gradlew build
+
+    test:
+        ./gradlew test
+
+    clean:
+        ./gradlew clean
+
+    run:
+        ./gradlew run
+
+    coverage:
+        ./gradlew jacocoTestReport
+    EOF
+
+    # Attempt to generate gradle wrapper
+    echo "Attempting to generate Gradle wrapper..."
+    if command -v gradle &> /dev/null; then
+        # We try to install the java version first so gradle can use it if needed
+        if command -v mise &> /dev/null; then
+            echo "Running 'mise install'..."
+            mise install
+        fi
+        
+        GRADLE_ARGS=""
+        # Gradle 9+ requires Java 17+ (approx)
+        # Gradle 8 requires Java 11+
+        # Gradle 7 supports Java 8+
+        if [ "$JAVA_INT" -lt 11 ]; then
+            echo "Java version < 11 detected. Using Gradle 7.6.4 for compatibility."
+            GRADLE_ARGS="--gradle-version 7.6.4"
+        elif [ "$JAVA_INT" -lt 17 ]; then
+            echo "Java version < 17 detected. Using Gradle 8.5 for compatibility."
+            GRADLE_ARGS="--gradle-version 8.5"
+        fi
+
+        gradle wrapper $GRADLE_ARGS
+    else
+        echo "Warning: 'gradle' command not found. Gradle wrapper not generated."
+        echo "Please ensure Gradle is installed and run 'gradle wrapper' manually."
+    fi
+
+    echo "Project setup complete at $(pwd)"  
