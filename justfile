@@ -329,3 +329,59 @@ python-quickstart PROJECT_NAME:
     EOF
 
     echo "Project setup complete at $(pwd)"
+
+[no-cd]
+[group('coding')]
+rust-quickstart PROJECT_NAME:
+    #!/usr/bin/env bash
+
+    set -e
+
+    PROJECT_NAME={{PROJECT_NAME}}
+
+    echo "Creating Rust project '$PROJECT_NAME'..."
+
+    if ! command -v cargo &> /dev/null; then
+        echo "Error: 'cargo' is not installed. Please install Rust via rustup."
+        exit 1
+    fi
+
+    # Create new cargo project
+    cargo new --bin --vcs none "$PROJECT_NAME"
+    cd "$PROJECT_NAME"
+
+    # Modify main.rs
+    cat <<EOF > src/main.rs
+    fn main() {
+        println!("Just one more thing.");
+    }
+
+    #[cfg(test)]
+    mod tests {
+        #[test]
+        fn test_app() {
+            assert!(true, "The simplest test in the world");
+        }
+    }
+    EOF
+
+    # Create justfile
+    cat <<EOF > justfile
+    default:
+        @just --list
+
+    build:
+        cargo build
+
+    test:
+        cargo test
+
+    clean:
+        cargo clean
+
+    run:
+        cargo run
+    EOF
+
+    echo "Project setup complete at $(pwd)"
+
