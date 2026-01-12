@@ -48,6 +48,11 @@ update-open-webui-pod: && create-open-webui-pod start-open-webui-pod
     podman rm -i open-webui
     podman pull ghcr.io/open-webui/open-webui:main
 
+# Symlink Ghostty config file to correct location
+[group('initial-setup')]
+link-ghostty-config:
+    mkdir -p $HOME/.config/ghostty/
+    ln -sf $HOME/dotfiles/ghostty/config $HOME/.config/ghostty/
 
 cheat CMD:
     curl -sS cheat.sh/{{CMD}} | bat 
