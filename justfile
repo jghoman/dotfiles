@@ -60,6 +60,12 @@ link-ghostty-config:
     mkdir -p $HOME/.config/ghostty/
     ln -sf $HOME/dotfiles/ghostty/config $HOME/.config/ghostty/
 
+# Symlink Zed config file to correct location
+[group('initial-setup')]
+link-zed-config:
+    mkdir -p $HOME/.config/zed/
+    ln -sf $HOME/dotfiles/zed/settings.json $HOME/.config/zed/
+
 cheat CMD:
     curl -sS cheat.sh/{{CMD}} | bat 
 
