@@ -66,6 +66,11 @@ link-zed-config:
     mkdir -p $HOME/.config/zed/
     ln -sf $HOME/dotfiles/zed/settings.json $HOME/.config/zed/
 
+# Configure golang
+[group('coding')]
+configure-golang:
+    go env -w GOFLAGS="-v -x"
+
 cheat CMD:
     curl -sS cheat.sh/{{CMD}} | bat 
 
