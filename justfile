@@ -19,6 +19,12 @@ install-oh-my-zsh:
 install-mac-home-apps:
     brew install --cask handbrake visual-studio-code steam
 
+# Set scrolling direction back to where God intended it to be
+[group('mac')]
+fix-scrolling-direction:
+    defaults write -g com.apple.swipescrolldirection -bool false
+    killall Finder
+
 install-tailscale:
     brew install tailscale
 
@@ -57,10 +63,8 @@ link-ghostty-config:
 cheat CMD:
     curl -sS cheat.sh/{{CMD}} | bat 
 
-[no-cd]
-duckdb-here-via-podman:
-    podman run -it -v "$(pwd):/data" datacatering/duckdb:v1.2.2
-
+# Re-link Docker in the event brew unlinks it
+[group('annoyances')]
 link-docker:
     brew link docker
 
