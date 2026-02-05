@@ -636,3 +636,6 @@ readme-quickstart:
     EOF
 
     echo "README.md created successfully."
+
+open-pane:
+    tmux split-window -h -c "#{pane_current_path}"

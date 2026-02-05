@@ -11,6 +11,7 @@
 [user]
 	name = Jakob Homan
 	email = jghoman@gmail.com
+
 [alias]
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
   ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
@@ -24,8 +25,10 @@
   pl = pull -rebase
   branc = branch
   ec = commit --allow-empty
+
 [color]
   ui = true
+
 [core]
   editor = vim
   pager = /usr/bin/less
@@ -33,7 +36,7 @@
   trustctime = false
 
 [url "git@github.com:"]
-insteadof = https://github.com/
+    insteadof = https://github.com/
 [pull]
 	rebase = false
 [pull]
