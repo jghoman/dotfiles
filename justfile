@@ -78,46 +78,36 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
     JAVA_VERSION="{{JAVA_VERSION}}"
     PROJECT_NAME="{{PROJECT_NAME}}"
 
-    # Helper to extract major Java version
-    function get_major_version() {
-        local ver=$1
-        if [[ "$ver" == "1.8" ]]; then
-            echo "8"
-        else
-            # Extract first number found in the string
-            echo "$ver" | grep -oE '[0-9]+' | head -1
-        fi
-    }
-
-    # Normalize version for mise
-    # If user provides just a number like "8", "11", "25", default to corretto
-    if [[ "$JAVA_VERSION" =~ ^[0-9]+$ ]] || [[ "$JAVA_VERSION" == "1.8" ]]; then
-        # Handle 1.8 special case for mise which usually uses "8"
-        if [[ "$JAVA_VERSION" == "1.8" ]]; then
-            MISE_VERSION="corretto-8"
-            JAVA_INT=8
-        else
-            MISE_VERSION="corretto-$JAVA_VERSION"
-            JAVA_INT=$JAVA_VERSION
-        fi
+    # Extract major Java version number
+    if [[ "$JAVA_VERSION" == "1.8" ]]; then
+        JAVA_INT=8
     else
-        MISE_VERSION="$JAVA_VERSION"
-        JAVA_INT=$(get_major_version "$JAVA_VERSION")
+        JAVA_INT=$(echo "$JAVA_VERSION" | grep -oE '[0-9]+' | head -1)
     fi
 
-    echo "Creating project '$PROJECT_NAME' with Java $JAVA_INT (using $MISE_VERSION)..."
+    # Map to Nixpkgs JDK package name
+    if [[ "$JAVA_INT" == "21" ]]; then
+        JDK_PKG="jdk21"
+    elif [[ "$JAVA_INT" == "17" ]]; then
+        JDK_PKG="jdk17"
+    elif [[ "$JAVA_INT" == "11" ]]; then
+        JDK_PKG="jdk11"
+    elif [[ "$JAVA_INT" == "8" ]]; then
+        JDK_PKG="jdk8"
+    else
+        JDK_PKG="jdk${JAVA_INT}"
+    fi
+
+    echo "Creating project '$PROJECT_NAME' with Java $JAVA_INT (using $JDK_PKG)..."
 
     # Create project directory
     mkdir -p "$PROJECT_NAME"
     cd "$PROJECT_NAME"
 
-    # Setup mise configuration
-    echo "Setting up mise..."
-    cat <<EOF > .mise.toml
-    [tools]
-    java = "$MISE_VERSION"
-    EOF
-    mise trust
+    # Setup flox environment
+    echo "Setting up flox environment..."
+    flox init
+    flox install "$JDK_PKG"
 
     # Setup project structure
     echo "Creating project structure..."
@@ -210,12 +200,6 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
     # Attempt to generate gradle wrapper
     echo "Attempting to generate Gradle wrapper..."
     if command -v gradle &> /dev/null; then
-        # We try to install the java version first so gradle can use it if needed
-        if command -v mise &> /dev/null; then
-            echo "Running 'mise install'..."
-            mise install
-        fi
-
         GRADLE_ARGS=""
         # Gradle 9+ requires Java 17+ (approx)
         # Gradle 8 requires Java 11+
@@ -254,26 +238,13 @@ python-quickstart PROJECT_NAME:
     mkdir -p "$PROJECT_NAME"
     cd "$PROJECT_NAME"
 
-    # Setup mise to ensure uv is available
-    echo "Setting up mise..."
-    # We just need uv to start with.
-    cat <<EOF > .mise.toml
-    [tools]
-    uv = "latest"
-    python = "$PYTHON_VERSION"
-    EOF
-    mise trust
-
-    # Install tools via mise
-    if command -v mise &> /dev/null; then
-        echo "Installing tools via mise..."
-        mise install
-    fi
+    # Setup flox environment
+    echo "Setting up flox environment..."
+    flox init
+    flox install python3 uv
 
     # Initialize uv project
     echo "Initializing uv project..."
-    # We use 'uv' from the path, which mise should have set up, or system uv.
-    # We explicitly set the python version for the project.
     uv init --python "$PYTHON_VERSION" --name "$PROJECT_NAME" --app --package --vcs none .
 
     # Add pytest as dev dependency
@@ -412,35 +383,10 @@ node-quickstart PROJECT_NAME:
     mkdir -p "$PROJECT_NAME"
     cd "$PROJECT_NAME"
 
-    # Setup mise configuration for Node.js
-    # Using LTS is customary for general projects
-    echo "Setting up mise..."
-    cat <<EOF > .mise.toml
-    [tools]
-    node = "lts"
-    EOF
-    mise trust
-
-    # Install node via mise
-    if command -v mise &> /dev/null; then
-        echo "Installing tools via mise..."
-        set +e # Temporarily allow failure
-        mise install
-        MISE_EXIT_CODE=$?
-        set -e # Re-enable strict mode
-
-        if [ $MISE_EXIT_CODE -ne 0 ]; then
-            echo "Warning: 'mise install' failed (likely GPG/network issue)."
-            echo "Attempting to proceed with system Node.js..."
-        fi
-    fi
-
-    # Check if node is available (either from mise or system)
-    if ! command -v node &> /dev/null; then
-        echo "Error: 'node' command not found."
-        echo "Please ensure Node.js is installed (via mise or system) to proceed."
-        exit 1
-    fi
+    # Setup flox environment
+    echo "Setting up flox environment..."
+    flox init
+    flox install nodejs
 
     # Initialize npm project
     echo "Initializing npm project..."
@@ -519,26 +465,10 @@ golang-quickstart PROJECT_NAME:
     mkdir -p "$PROJECT_NAME"
     cd "$PROJECT_NAME"
 
-    # Setup mise configuration for Go
-    echo "Setting up mise..."
-    cat <<EOF > .mise.toml
-    [tools]
-    go = "latest"
-    EOF
-    mise trust
-
-    # Install go via mise
-    if command -v mise &> /dev/null; then
-        echo "Installing tools via mise..."
-        mise install
-    fi
-
-    # Check if go is available
-    if ! command -v go &> /dev/null; then
-        echo "Error: 'go' command not found."
-        echo "Please ensure Go is installed (via mise or system) to proceed."
-        exit 1
-    fi
+    # Setup flox environment
+    echo "Setting up flox environment..."
+    flox init
+    flox install go
 
     # Initialize Go module
     echo "Initializing Go module..."
@@ -624,9 +554,9 @@ readme-quickstart:
         IS_NODE=true
     fi
 
-    HAS_MISE=false
-    if [[ -f .mise.toml ]]; then
-        HAS_MISE=true
+    HAS_FLOX=false
+    if [[ -d .flox ]]; then
+        HAS_FLOX=true
     fi
 
     # Build content
@@ -644,14 +574,14 @@ readme-quickstart:
     - **[Just](https://github.com/casey/just)**: Used as the command runner for build, test, and execution tasks.
     EOF
 
-    if [ "$HAS_MISE" = true ]; then
-        echo "- **[mise](https://mise.jdx.dev/)**: Recommended. It will automatically install and manage the correct versions of the tools listed below (run \`mise install\`)." >> "$README_FILE"
+    if [ "$HAS_FLOX" = true ]; then
+        echo "- **[Flox](https://flox.dev/)**: Recommended. It will automatically provide the correct versions of the tools listed below (run \`flox activate\`)." >> "$README_FILE"
     fi
 
     # Add language specific requirements
     if [ "$IS_JAVA" = true ]; then
-        if [ "$HAS_MISE" = true ]; then
-            echo "- **Java JDK**: Provided by mise." >> "$README_FILE"
+        if [ "$HAS_FLOX" = true ]; then
+            echo "- **Java JDK**: Provided by Flox." >> "$README_FILE"
         else
             echo "- **Java JDK**: Ensure you have a compatible Java Development Kit installed." >> "$README_FILE"
         fi
@@ -659,8 +589,8 @@ readme-quickstart:
     fi
 
     if [ "$IS_PYTHON" = true ]; then
-        if [ "$HAS_MISE" = true ]; then
-            echo "- **Python**: Provided by mise (or managed via uv)." >> "$README_FILE"
+        if [ "$HAS_FLOX" = true ]; then
+            echo "- **Python**: Provided by Flox." >> "$README_FILE"
         else
             echo "- **Python**: A modern Python version." >> "$README_FILE"
         fi
@@ -668,15 +598,13 @@ readme-quickstart:
     fi
 
     if [ "$IS_RUST" = true ]; then
-        # Rust is usually managed by rustup, not typically mise (though mise can do it).
-        # Our script didn't set up mise for Rust.
         echo "- **Rust**: The Rust programming language (install via [rustup](https://rustup.rs/))." >> "$README_FILE"
         echo "- **Cargo**: The Rust package manager (included with Rust)." >> "$README_FILE"
     fi
 
     if [ "$IS_NODE" = true ]; then
-        if [ "$HAS_MISE" = true ]; then
-            echo "- **Node.js**: Provided by mise." >> "$README_FILE"
+        if [ "$HAS_FLOX" = true ]; then
+            echo "- **Node.js**: Provided by Flox." >> "$README_FILE"
         else
             echo "- **Node.js**: The JavaScript runtime." >> "$README_FILE"
         fi
