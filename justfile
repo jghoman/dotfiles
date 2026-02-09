@@ -15,9 +15,10 @@ update-screenshot-location-and-type:
 install-brew-programs:
     brew install bundle
 
-# Install Oh My Zsh framework
+# Install Oh My Zsh framework and Fira Code Nerd Font
 install-oh-my-zsh:
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    brew install --cask font-fira-code-nerd-font
 
 # Install personal Mac apps via Homebrew casks
 [group('mac')]
