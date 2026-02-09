@@ -2,6 +2,7 @@ default:
     just --list
 
 
+# Set screenshot save location to ~/screenshots and format to JPG
 [group('mac')]
 update-screenshot-location-and-type:
     mkdir ~/screenshots
@@ -9,12 +10,16 @@ update-screenshot-location-and-type:
     defaults write com.apple.screencapture "type" -string "jpg"
     killall SystemUIServer
 
+# Install Homebrew Bundle plugin
+[group('mac')]
 install-brew-programs:
     brew install bundle
 
+# Install Oh My Zsh framework
 install-oh-my-zsh:
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+# Install personal Mac apps via Homebrew casks
 [group('mac')]
 install-mac-home-apps:
     brew install --cask handbrake visual-studio-code steam
@@ -25,34 +30,21 @@ fix-scrolling-direction:
     defaults write -g com.apple.swipescrolldirection -bool false
     killall Finder
 
+# Install Tailscale VPN client
+[group('mac')]
 install-tailscale:
     brew install tailscale
 
+# Install Homebrew package manager
+[group('mac')]
 install-brew:
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+# Install iperf3 and start a bandwidth test server
+[group('mac')]
 perf-test-server:
     brew install iperf3
     iperf3 -s -f M
-
-[group('podman')]
-create-open-webui-pod:
-    podman create -p 127.0.0.1:3000:8080 \
-    --env 'OLLAMA_BASE_URL=http://host.containers.internal:11434' \
-    --env 'ANONYMIZED_TELEMETRY=False' \
-    -v open-webui:/app/backend/data \
-    --label io.containers.autoupdate=image \
-    --name open-webui ghcr.io/open-webui/open-webui:main
-
-[group('podman')]
-start-open-webui-pod:
-    podman start open-webui
-
-[group('podman')]
-update-open-webui-pod: && create-open-webui-pod start-open-webui-pod
-    podman stop -i open-webui
-    podman rm -i open-webui
-    podman pull ghcr.io/open-webui/open-webui:main
 
 # Symlink Ghostty config file to correct location
 [group('initial-setup')]
@@ -66,14 +58,16 @@ link-zed-config:
     mkdir -p $HOME/.config/zed/
     ln -sf $HOME/dotfiles/zed/settings.json $HOME/.config/zed/
 
+# Look up a command cheatsheet via cheat.sh
 cheat CMD:
-    curl -sS cheat.sh/{{CMD}} | bat 
+    curl -sS cheat.sh/{{CMD}} | bat
 
 # Re-link Docker in the event brew unlinks it
 [group('annoyances')]
 link-docker:
     brew link docker
 
+# Scaffold a new Gradle-based Java project
 [no-cd]
 [group('coding')]
 java-quickstart JAVA_VERSION PROJECT_NAME:
@@ -221,7 +215,7 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
             echo "Running 'mise install'..."
             mise install
         fi
-        
+
         GRADLE_ARGS=""
         # Gradle 9+ requires Java 17+ (approx)
         # Gradle 8 requires Java 11+
@@ -242,6 +236,7 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+# Scaffold a new Python project using uv
 [no-cd]
 [group('coding')]
 python-quickstart PROJECT_NAME:
@@ -345,6 +340,7 @@ python-quickstart PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+# Scaffold a new Rust project using Cargo
 [no-cd]
 [group('coding')]
 rust-quickstart PROJECT_NAME:
@@ -400,6 +396,7 @@ rust-quickstart PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+# Scaffold a new Node.js project using npm
 [no-cd]
 [group('coding')]
 node-quickstart PROJECT_NAME:
@@ -431,7 +428,7 @@ node-quickstart PROJECT_NAME:
         mise install
         MISE_EXIT_CODE=$?
         set -e # Re-enable strict mode
-        
+
         if [ $MISE_EXIT_CODE -ne 0 ]; then
             echo "Warning: 'mise install' failed (likely GPG/network issue)."
             echo "Attempting to proceed with system Node.js..."
@@ -506,6 +503,93 @@ node-quickstart PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+# Scaffold a new Go project
+[no-cd]
+[group('coding')]
+golang-quickstart PROJECT_NAME:
+    #!/usr/bin/env bash
+
+    set -e
+
+    PROJECT_NAME="{{PROJECT_NAME}}"
+
+    echo "Creating Go project '$PROJECT_NAME'..."
+
+    # Create project directory
+    mkdir -p "$PROJECT_NAME"
+    cd "$PROJECT_NAME"
+
+    # Setup mise configuration for Go
+    echo "Setting up mise..."
+    cat <<EOF > .mise.toml
+    [tools]
+    go = "latest"
+    EOF
+    mise trust
+
+    # Install go via mise
+    if command -v mise &> /dev/null; then
+        echo "Installing tools via mise..."
+        mise install
+    fi
+
+    # Check if go is available
+    if ! command -v go &> /dev/null; then
+        echo "Error: 'go' command not found."
+        echo "Please ensure Go is installed (via mise or system) to proceed."
+        exit 1
+    fi
+
+    # Initialize Go module
+    echo "Initializing Go module..."
+    go mod init "$PROJECT_NAME"
+
+    # Create main.go
+    cat <<EOF > main.go
+    package main
+
+    import "fmt"
+
+    func main() {
+        fmt.Println("Just one more thing.")
+    }
+    EOF
+
+    # Create main_test.go
+    cat <<EOF > main_test.go
+    package main
+
+    import "testing"
+
+    func TestApp(t *testing.T) {
+        // The simplest test in the world
+        if false {
+            t.Fatal("unreachable")
+        }
+    }
+    EOF
+
+    # Create justfile
+    cat <<EOF > justfile
+    default:
+        @just --list
+
+    build:
+        go build ./...
+
+    test:
+        go test ./...
+
+    clean:
+        go clean
+
+    run:
+        go run .
+    EOF
+
+    echo "Project setup complete at $(pwd)"
+
+# Generate a README.md based on detected project type
 [no-cd]
 [group('coding')]
 readme-quickstart:
@@ -637,5 +721,11 @@ readme-quickstart:
 
     echo "README.md created successfully."
 
+# Open a new tmux pane in the current directory
 open-pane:
     tmux split-window -h -c "#{pane_current_path}"
+
+# Push an empty commit to repo in order to trigger CI/CD
+[group('coding')]
+retrigger-with-empty-commit:
+    git commit --allow-empty -m "retrigger CI" && git push
