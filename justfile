@@ -650,6 +650,7 @@ open-pane:
     tmux split-window -h -c "#{pane_current_path}"
 
 # Push an empty commit to repo in order to trigger CI/CD
+[no-cd]
 [group('coding')]
 retrigger-with-empty-commit:
     git commit --allow-empty -m "retrigger CI" && git push
