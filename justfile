@@ -63,11 +63,6 @@ link-zed-config:
 cheat CMD:
     curl -sS cheat.sh/{{CMD}} | bat
 
-# Re-link Docker in the event brew unlinks it
-[group('annoyances')]
-link-docker:
-    brew link docker
-
 # Scaffold a new Gradle-based Java project
 [no-cd]
 [group('coding')]
