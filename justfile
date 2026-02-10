@@ -664,3 +664,48 @@ update-ollama-models:
     echo "Pulling $model ..."
     ollama pull "$model"
     done
+
+# Pull recommended ollama models for 48GB Mac
+[group('ai')]
+ollama-setup-48gb:
+    #!/usr/bin/env bash
+    set -e
+    echo "Pulling recommended models for 48GB Mac..."
+    # nemotron-3-nano:30b (24GB) — Best overall coding + reasoning MoE model from NVIDIA.
+    # Top of class for agentic tasks and instruction following. Default workhorse.
+    ollama pull nemotron-3-nano:30b
+    # devstral-small-2 (15GB) — #1 open source model on SWE-bench. Excels at
+    # multi-file agentic editing and codebase exploration. Adds vision support.
+    ollama pull devstral-small-2
+    # glm-4.7-flash (19GB) — 30B-A3B MoE model. Strong coding benchmarks in its
+    # size class. Heavy hitter for second opinions on hard problems.
+    ollama pull glm-4.7-flash:q4_K_M
+    # qwen3:30b-a3b (19GB) — 30B/3B-active MoE reasoning model. Different
+    # architecture from nemotron/glm, useful as a third opinion. Supports thinking mode.
+    ollama pull qwen3:30b-a3b
+    # gpt-oss:20b (14GB) — OpenAI's open-weight model. Fast and capable fallback
+    # for quick chat and lighter tasks.
+    ollama pull gpt-oss:20b
+    echo "Done. All 48GB models pulled."
+
+# Pull recommended ollama models for 32GB Mac
+[group('ai')]
+ollama-setup-32gb:
+    #!/usr/bin/env bash
+    set -e
+    echo "Pulling recommended models for 32GB Mac..."
+    # devstral-small-2 (15GB) — #1 open source model on SWE-bench. Excels at
+    # multi-file agentic editing and codebase exploration. Best bang-for-buck
+    # coding model at this RAM tier.
+    ollama pull devstral-small-2
+    # gpt-oss:20b (14GB) — OpenAI's open-weight model. Strong reasoning and
+    # agentic tasks. Serves as the primary all-rounder at this RAM level.
+    ollama pull gpt-oss:20b
+    # qwen3:14b (9.3GB) — Dense 14B reasoning model with thinking mode. Different
+    # architecture provides a second opinion. Small enough to coexist in memory
+    # with the MoE models above.
+    ollama pull qwen3:14b
+    # qwen3:8b (5.2GB) — Lightweight fast fallback for quick chat and simple tasks.
+    # Fits easily alongside any other loaded model.
+    ollama pull qwen3:8b
+    echo "Done. All 32GB models pulled."
