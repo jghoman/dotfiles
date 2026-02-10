@@ -47,12 +47,6 @@ perf-test-server:
     brew install iperf3
     iperf3 -s -f M
 
-# Symlink Ghostty config file to correct location
-[group('initial-setup')]
-link-ghostty-config:
-    mkdir -p $HOME/.config/ghostty/
-    ln -sf $HOME/dotfiles/ghostty/config $HOME/.config/ghostty/
-
 # Symlink Zed config file to correct location
 [group('initial-setup')]
 link-zed-config:
