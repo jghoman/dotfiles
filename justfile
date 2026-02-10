@@ -654,3 +654,13 @@ open-pane:
 [group('coding')]
 retrigger-with-empty-commit:
     git commit --allow-empty -m "retrigger CI" && git push
+
+# Pull all the installed local ollama models
+[no-cd]
+[group('ai')]
+update-ollama-models:
+    #!/usr/bin/env bash
+    ollama list | tail -n +2 | awk '{print $1}' | while read -r model; do
+    echo "Pulling $model ..."
+    ollama pull "$model"
+    done
