@@ -12,3 +12,4 @@ alias gc="git commit"
 alias gco="git checkout"
 
 alias j="just"
+alias calcure="uvx calcure"

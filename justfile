@@ -2,6 +2,7 @@ default:
     just --list
 
 
+# Set screenshot save location to ~/screenshots and format to JPG
 [group('mac')]
 update-screenshot-location-and-type:
     mkdir ~/screenshots
@@ -9,12 +10,17 @@ update-screenshot-location-and-type:
     defaults write com.apple.screencapture "type" -string "jpg"
     killall SystemUIServer
 
+# Install Homebrew Bundle plugin
+[group('mac')]
 install-brew-programs:
     brew install bundle
 
+# Install Oh My Zsh framework and Fira Code Nerd Font
 install-oh-my-zsh:
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    brew install --cask font-fira-code-nerd-font
 
+# Install personal Mac apps via Homebrew casks
 [group('mac')]
 install-mac-home-apps:
     brew install --cask handbrake visual-studio-code steam
@@ -25,40 +31,21 @@ fix-scrolling-direction:
     defaults write -g com.apple.swipescrolldirection -bool false
     killall Finder
 
+# Install Tailscale VPN client
+[group('mac')]
 install-tailscale:
     brew install tailscale
 
+# Install Homebrew package manager
+[group('mac')]
 install-brew:
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+# Install iperf3 and start a bandwidth test server
+[group('mac')]
 perf-test-server:
     brew install iperf3
     iperf3 -s -f M
-
-[group('podman')]
-create-open-webui-pod:
-    podman create -p 127.0.0.1:3000:8080 \
-    --env 'OLLAMA_BASE_URL=http://host.containers.internal:11434' \
-    --env 'ANONYMIZED_TELEMETRY=False' \
-    -v open-webui:/app/backend/data \
-    --label io.containers.autoupdate=image \
-    --name open-webui ghcr.io/open-webui/open-webui:main
-
-[group('podman')]
-start-open-webui-pod:
-    podman start open-webui
-
-[group('podman')]
-update-open-webui-pod: && create-open-webui-pod start-open-webui-pod
-    podman stop -i open-webui
-    podman rm -i open-webui
-    podman pull ghcr.io/open-webui/open-webui:main
-
-# Symlink Ghostty config file to correct location
-[group('initial-setup')]
-link-ghostty-config:
-    mkdir -p $HOME/.config/ghostty/
-    ln -sf $HOME/dotfiles/ghostty/config $HOME/.config/ghostty/
 
 # Symlink Zed config file to correct location
 [group('initial-setup')]
@@ -71,14 +58,11 @@ link-zed-config:
 configure-golang:
     go env -w GOFLAGS="-v -x"
 
+# Look up a command cheatsheet via cheat.sh
 cheat CMD:
-    curl -sS cheat.sh/{{CMD}} | bat 
+    curl -sS cheat.sh/{{CMD}} | bat
 
-# Re-link Docker in the event brew unlinks it
-[group('annoyances')]
-link-docker:
-    brew link docker
-
+# Scaffold a new Gradle-based Java project
 [no-cd]
 [group('coding')]
 java-quickstart JAVA_VERSION PROJECT_NAME:
@@ -89,46 +73,36 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
     JAVA_VERSION="{{JAVA_VERSION}}"
     PROJECT_NAME="{{PROJECT_NAME}}"
 
-    # Helper to extract major Java version
-    function get_major_version() {
-        local ver=$1
-        if [[ "$ver" == "1.8" ]]; then
-            echo "8"
-        else
-            # Extract first number found in the string
-            echo "$ver" | grep -oE '[0-9]+' | head -1
-        fi
-    }
-
-    # Normalize version for mise
-    # If user provides just a number like "8", "11", "25", default to corretto
-    if [[ "$JAVA_VERSION" =~ ^[0-9]+$ ]] || [[ "$JAVA_VERSION" == "1.8" ]]; then
-        # Handle 1.8 special case for mise which usually uses "8"
-        if [[ "$JAVA_VERSION" == "1.8" ]]; then
-            MISE_VERSION="corretto-8"
-            JAVA_INT=8
-        else
-            MISE_VERSION="corretto-$JAVA_VERSION"
-            JAVA_INT=$JAVA_VERSION
-        fi
+    # Extract major Java version number
+    if [[ "$JAVA_VERSION" == "1.8" ]]; then
+        JAVA_INT=8
     else
-        MISE_VERSION="$JAVA_VERSION"
-        JAVA_INT=$(get_major_version "$JAVA_VERSION")
+        JAVA_INT=$(echo "$JAVA_VERSION" | grep -oE '[0-9]+' | head -1)
     fi
 
-    echo "Creating project '$PROJECT_NAME' with Java $JAVA_INT (using $MISE_VERSION)..."
+    # Map to Nixpkgs JDK package name
+    if [[ "$JAVA_INT" == "21" ]]; then
+        JDK_PKG="jdk21"
+    elif [[ "$JAVA_INT" == "17" ]]; then
+        JDK_PKG="jdk17"
+    elif [[ "$JAVA_INT" == "11" ]]; then
+        JDK_PKG="jdk11"
+    elif [[ "$JAVA_INT" == "8" ]]; then
+        JDK_PKG="jdk8"
+    else
+        JDK_PKG="jdk${JAVA_INT}"
+    fi
+
+    echo "Creating project '$PROJECT_NAME' with Java $JAVA_INT (using $JDK_PKG)..."
 
     # Create project directory
     mkdir -p "$PROJECT_NAME"
     cd "$PROJECT_NAME"
 
-    # Setup mise configuration
-    echo "Setting up mise..."
-    cat <<EOF > .mise.toml
-    [tools]
-    java = "$MISE_VERSION"
-    EOF
-    mise trust
+    # Setup flox environment
+    echo "Setting up flox environment..."
+    flox init
+    flox install "$JDK_PKG"
 
     # Setup project structure
     echo "Creating project structure..."
@@ -221,12 +195,6 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
     # Attempt to generate gradle wrapper
     echo "Attempting to generate Gradle wrapper..."
     if command -v gradle &> /dev/null; then
-        # We try to install the java version first so gradle can use it if needed
-        if command -v mise &> /dev/null; then
-            echo "Running 'mise install'..."
-            mise install
-        fi
-        
         GRADLE_ARGS=""
         # Gradle 9+ requires Java 17+ (approx)
         # Gradle 8 requires Java 11+
@@ -247,6 +215,7 @@ java-quickstart JAVA_VERSION PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+# Scaffold a new Python project using uv
 [no-cd]
 [group('coding')]
 python-quickstart PROJECT_NAME:
@@ -264,26 +233,13 @@ python-quickstart PROJECT_NAME:
     mkdir -p "$PROJECT_NAME"
     cd "$PROJECT_NAME"
 
-    # Setup mise to ensure uv is available
-    echo "Setting up mise..."
-    # We just need uv to start with.
-    cat <<EOF > .mise.toml
-    [tools]
-    uv = "latest"
-    python = "$PYTHON_VERSION"
-    EOF
-    mise trust
-
-    # Install tools via mise
-    if command -v mise &> /dev/null; then
-        echo "Installing tools via mise..."
-        mise install
-    fi
+    # Setup flox environment
+    echo "Setting up flox environment..."
+    flox init
+    flox install python3 uv
 
     # Initialize uv project
     echo "Initializing uv project..."
-    # We use 'uv' from the path, which mise should have set up, or system uv.
-    # We explicitly set the python version for the project.
     uv init --python "$PYTHON_VERSION" --name "$PROJECT_NAME" --app --package --vcs none .
 
     # Add pytest as dev dependency
@@ -350,6 +306,7 @@ python-quickstart PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+# Scaffold a new Rust project using Cargo
 [no-cd]
 [group('coding')]
 rust-quickstart PROJECT_NAME:
@@ -405,6 +362,7 @@ rust-quickstart PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+# Scaffold a new Node.js project using npm
 [no-cd]
 [group('coding')]
 node-quickstart PROJECT_NAME:
@@ -420,35 +378,10 @@ node-quickstart PROJECT_NAME:
     mkdir -p "$PROJECT_NAME"
     cd "$PROJECT_NAME"
 
-    # Setup mise configuration for Node.js
-    # Using LTS is customary for general projects
-    echo "Setting up mise..."
-    cat <<EOF > .mise.toml
-    [tools]
-    node = "lts"
-    EOF
-    mise trust
-
-    # Install node via mise
-    if command -v mise &> /dev/null; then
-        echo "Installing tools via mise..."
-        set +e # Temporarily allow failure
-        mise install
-        MISE_EXIT_CODE=$?
-        set -e # Re-enable strict mode
-        
-        if [ $MISE_EXIT_CODE -ne 0 ]; then
-            echo "Warning: 'mise install' failed (likely GPG/network issue)."
-            echo "Attempting to proceed with system Node.js..."
-        fi
-    fi
-
-    # Check if node is available (either from mise or system)
-    if ! command -v node &> /dev/null; then
-        echo "Error: 'node' command not found."
-        echo "Please ensure Node.js is installed (via mise or system) to proceed."
-        exit 1
-    fi
+    # Setup flox environment
+    echo "Setting up flox environment..."
+    flox init
+    flox install nodejs
 
     # Initialize npm project
     echo "Initializing npm project..."
@@ -511,6 +444,77 @@ node-quickstart PROJECT_NAME:
 
     echo "Project setup complete at $(pwd)"
 
+# Scaffold a new Go project
+[no-cd]
+[group('coding')]
+golang-quickstart PROJECT_NAME:
+    #!/usr/bin/env bash
+
+    set -e
+
+    PROJECT_NAME="{{PROJECT_NAME}}"
+
+    echo "Creating Go project '$PROJECT_NAME'..."
+
+    # Create project directory
+    mkdir -p "$PROJECT_NAME"
+    cd "$PROJECT_NAME"
+
+    # Setup flox environment
+    echo "Setting up flox environment..."
+    flox init
+    flox install go
+
+    # Initialize Go module
+    echo "Initializing Go module..."
+    go mod init "$PROJECT_NAME"
+
+    # Create main.go
+    cat <<EOF > main.go
+    package main
+
+    import "fmt"
+
+    func main() {
+        fmt.Println("Just one more thing.")
+    }
+    EOF
+
+    # Create main_test.go
+    cat <<EOF > main_test.go
+    package main
+
+    import "testing"
+
+    func TestApp(t *testing.T) {
+        // The simplest test in the world
+        if false {
+            t.Fatal("unreachable")
+        }
+    }
+    EOF
+
+    # Create justfile
+    cat <<EOF > justfile
+    default:
+        @just --list
+
+    build:
+        go build ./...
+
+    test:
+        go test ./...
+
+    clean:
+        go clean
+
+    run:
+        go run .
+    EOF
+
+    echo "Project setup complete at $(pwd)"
+
+# Generate a README.md based on detected project type
 [no-cd]
 [group('coding')]
 readme-quickstart:
@@ -545,9 +549,9 @@ readme-quickstart:
         IS_NODE=true
     fi
 
-    HAS_MISE=false
-    if [[ -f .mise.toml ]]; then
-        HAS_MISE=true
+    HAS_FLOX=false
+    if [[ -d .flox ]]; then
+        HAS_FLOX=true
     fi
 
     # Build content
@@ -565,14 +569,14 @@ readme-quickstart:
     - **[Just](https://github.com/casey/just)**: Used as the command runner for build, test, and execution tasks.
     EOF
 
-    if [ "$HAS_MISE" = true ]; then
-        echo "- **[mise](https://mise.jdx.dev/)**: Recommended. It will automatically install and manage the correct versions of the tools listed below (run \`mise install\`)." >> "$README_FILE"
+    if [ "$HAS_FLOX" = true ]; then
+        echo "- **[Flox](https://flox.dev/)**: Recommended. It will automatically provide the correct versions of the tools listed below (run \`flox activate\`)." >> "$README_FILE"
     fi
 
     # Add language specific requirements
     if [ "$IS_JAVA" = true ]; then
-        if [ "$HAS_MISE" = true ]; then
-            echo "- **Java JDK**: Provided by mise." >> "$README_FILE"
+        if [ "$HAS_FLOX" = true ]; then
+            echo "- **Java JDK**: Provided by Flox." >> "$README_FILE"
         else
             echo "- **Java JDK**: Ensure you have a compatible Java Development Kit installed." >> "$README_FILE"
         fi
@@ -580,8 +584,8 @@ readme-quickstart:
     fi
 
     if [ "$IS_PYTHON" = true ]; then
-        if [ "$HAS_MISE" = true ]; then
-            echo "- **Python**: Provided by mise (or managed via uv)." >> "$README_FILE"
+        if [ "$HAS_FLOX" = true ]; then
+            echo "- **Python**: Provided by Flox." >> "$README_FILE"
         else
             echo "- **Python**: A modern Python version." >> "$README_FILE"
         fi
@@ -589,15 +593,13 @@ readme-quickstart:
     fi
 
     if [ "$IS_RUST" = true ]; then
-        # Rust is usually managed by rustup, not typically mise (though mise can do it).
-        # Our script didn't set up mise for Rust.
         echo "- **Rust**: The Rust programming language (install via [rustup](https://rustup.rs/))." >> "$README_FILE"
         echo "- **Cargo**: The Rust package manager (included with Rust)." >> "$README_FILE"
     fi
 
     if [ "$IS_NODE" = true ]; then
-        if [ "$HAS_MISE" = true ]; then
-            echo "- **Node.js**: Provided by mise." >> "$README_FILE"
+        if [ "$HAS_FLOX" = true ]; then
+            echo "- **Node.js**: Provided by Flox." >> "$README_FILE"
         else
             echo "- **Node.js**: The JavaScript runtime." >> "$README_FILE"
         fi
@@ -641,3 +643,68 @@ readme-quickstart:
     EOF
 
     echo "README.md created successfully."
+
+# Open a new tmux pane in the current directory
+open-pane:
+    tmux split-window -h -c "#{pane_current_path}"
+
+# Push an empty commit to repo in order to trigger CI/CD
+[no-cd]
+[group('coding')]
+retrigger-with-empty-commit:
+    git commit --allow-empty -m "retrigger CI" && git push
+
+# Pull all the installed local ollama models
+[no-cd]
+[group('ai')]
+update-ollama-models:
+    #!/usr/bin/env bash
+    ollama list | tail -n +2 | awk '{print $1}' | while read -r model; do
+    echo "Pulling $model ..."
+    ollama pull "$model"
+    done
+
+# Pull recommended ollama models for 48GB Mac
+[group('ai')]
+ollama-setup-48gb:
+    #!/usr/bin/env bash
+    set -e
+    echo "Pulling recommended models for 48GB Mac..."
+    # nemotron-3-nano:30b (24GB) — Best overall coding + reasoning MoE model from NVIDIA.
+    # Top of class for agentic tasks and instruction following. Default workhorse.
+    ollama pull nemotron-3-nano:30b
+    # devstral-small-2 (15GB) — #1 open source model on SWE-bench. Excels at
+    # multi-file agentic editing and codebase exploration. Adds vision support.
+    ollama pull devstral-small-2
+    # glm-4.7-flash (19GB) — 30B-A3B MoE model. Strong coding benchmarks in its
+    # size class. Heavy hitter for second opinions on hard problems.
+    ollama pull glm-4.7-flash:q4_K_M
+    # qwen3:30b-a3b (19GB) — 30B/3B-active MoE reasoning model. Different
+    # architecture from nemotron/glm, useful as a third opinion. Supports thinking mode.
+    ollama pull qwen3:30b-a3b
+    # gpt-oss:20b (14GB) — OpenAI's open-weight model. Fast and capable fallback
+    # for quick chat and lighter tasks.
+    ollama pull gpt-oss:20b
+    echo "Done. All 48GB models pulled."
+
+# Pull recommended ollama models for 32GB Mac
+[group('ai')]
+ollama-setup-32gb:
+    #!/usr/bin/env bash
+    set -e
+    echo "Pulling recommended models for 32GB Mac..."
+    # devstral-small-2 (15GB) — #1 open source model on SWE-bench. Excels at
+    # multi-file agentic editing and codebase exploration. Best bang-for-buck
+    # coding model at this RAM tier.
+    ollama pull devstral-small-2
+    # gpt-oss:20b (14GB) — OpenAI's open-weight model. Strong reasoning and
+    # agentic tasks. Serves as the primary all-rounder at this RAM level.
+    ollama pull gpt-oss:20b
+    # qwen3:14b (9.3GB) — Dense 14B reasoning model with thinking mode. Different
+    # architecture provides a second opinion. Small enough to coexist in memory
+    # with the MoE models above.
+    ollama pull qwen3:14b
+    # qwen3:8b (5.2GB) — Lightweight fast fallback for quick chat and simple tasks.
+    # Fits easily alongside any other loaded model.
+    ollama pull qwen3:8b
+    echo "Done. All 32GB models pulled."

@@ -1,95 +1,88 @@
-brew "ant"
-brew "bash"
-brew "bat"
-brew "btop"
-brew "ccache"
-brew "cloc"
-brew "cmake"
-brew "z3"
-brew "llvm"
-brew "crystal"
-brew "ctop"
-brew "difftastic"
-brew "docker", link: false
-brew "node"
-brew "dockly"
-brew "duckdb"
-brew "dust"
-brew "elixir"
-brew "python@3.12"
-brew "emscripten"
-brew "eza"
-brew "ffmpeg"
-brew "gh"
-brew "git-lfs"
-brew "gnupg"
-brew "gradle"
-brew "gsasl"
-brew "helix"
-brew "htop"
-brew "inlyne"
-brew "iperf3"
-brew "jless"
-brew "jq"
-brew "jsonlint"
-brew "just"
-brew "krb5"
-brew "lynx"
-brew "macmon"
-brew "mdcat"
-brew "minikube"
-brew "mise"
-brew "ncdu"
-brew "nim"
-brew "sccache"
-brew "the_silver_searcher"
-brew "thrift"
-brew "tig"
-brew "tldr"
-brew "tmux"
-brew "toast"
-brew "tree"
-brew "uv"
-brew "vcpkg"
-brew "wasmer"
-brew "watch"
-brew "wget"
-brew "yt-dlp"
-brew "zellij"
-brew "zig"
-brew "zoxide"
-cask "firefox"
-cask "ghostty"
-cask "httpie-desktop"
-cask "iterm2"
-cask "slack"
-cask "spectacle"
-cask "spotify"
-cask "tailscale-app"
-cask "visual-studio-code"
-cask "vlc"
-brew "broot" 
-vscode "dtsvet.vscode-wasm"
-vscode "ms-vscode-remote.remote-containers"
-vscode "ms-vscode-remote.remote-ssh"
-vscode "ms-vscode-remote.remote-ssh-edit"
-vscode "ms-vscode.cmake-tools"
-vscode "ms-vscode.cpptools"
-vscode "ms-vscode.remote-explorer"
-vscode "redhat.java"
-vscode "rust-lang.rust-analyzer"
-vscode "scala-lang.scala"
-vscode "sdras.night-owl"
-vscode "tailscale.vscode-tailscale"
-vscode "tamasfe.even-better-toml"
-vscode "twxs.cmake"
-vscode "visualstudioexptteam.intellicode-api-usage-examples"
-vscode "visualstudioexptteam.vscodeintellicode"
-vscode "vscjava.vscode-gradle"
-vscode "vscjava.vscode-java-debug"
-vscode "vscjava.vscode-java-dependency"
-vscode "vscjava.vscode-java-pack"
-vscode "vscjava.vscode-java-test"
-vscode "vscjava.vscode-maven"
-vscode "yzhang.markdown-all-in-one"
-vscode "ziglang.vscode-zig"
+brew "bandwhich"                        # Per-process bandwidth monitor
+brew "bash"                             # Updated Bash shell
+brew "bat"                              # cat clone with syntax highlighting
+brew "broot"                            # Interactive tree file manager
+brew "btop"                             # Resource monitor
+brew "ccache"                           # Compiler cache
+brew "cloc"                             # Count lines of code
+brew "cmake"                            # Cross-platform build system
+brew "ctop"                             # Container metrics viewer
+brew "delta"                            # Syntax-highlighting git diff pager
+brew "difftastic"                       # Structural diff tool
+brew "dockly"                           # TUI for Docker container management
+brew "duckdb"                           # In-process analytical database
+brew "dust"                             # Intuitive disk usage tool
+brew "elixir"                           # Elixir programming language
+brew "eza"                              # Modern ls replacement
+brew "fd"                               # Modern find replacement
+brew "ffmpeg"                           # Audio/video processing toolkit
+brew "flox"                             # Nix-based dev environment manager
+brew "gh"                               # GitHub CLI
+brew "git-lfs"                          # Git Large File Storage
+brew "gnupg"                            # GPG encryption suite
+brew "gradle"                           # JVM build tool
+brew "helix"                            # Modal text editor
+brew "htop"                             # Interactive process viewer
+brew "hyperfine"                        # CLI benchmarking tool
+brew "inlyne"                           # GPU-powered Markdown viewer
+brew "iperf3"                           # Network bandwidth measurement tool
+brew "jless"                            # JSON viewer for the terminal
+brew "jq"                               # JSON processor
+brew "jsonlint"                         # JSON validator
+brew "just"                             # Command runner
+brew "lazygit"                          # TUI for git
+brew "lynx"                             # Terminal web browser
+brew "macmon"                           # Mac system monitor for Apple Silicon
+brew "mdcat"                            # Markdown renderer for the terminal
+brew "minikube"                         # Local Kubernetes cluster
+brew "mise"                             # Dev tool version manager
+brew "ncdu"                             # Disk usage analyzer with ncurses UI
+brew "node"                             # Node.js JavaScript runtime
+brew "python@3.12"                      # Python interpreter
+brew "ripgrep"                          # Fast regex search tool
+brew "sccache"                          # Shared compiler cache
+brew "the_silver_searcher"              # ag code search tool
+brew "tig"                              # Text-mode Git interface
+brew "tldr"                             # Simplified man pages
+brew "tokei"                            # Fast code statistics
+brew "tmux"                             # Terminal multiplexer
+brew "tree"                             # Directory listing as a tree
+brew "uv"                               # Fast Python package manager
+brew "wasmer"                           # WebAssembly runtime
+brew "watch"                            # Run commands periodically
+brew "wget"                             # HTTP file downloader
+brew "yt-dlp"                           # Video downloader
+brew "zellij"                           # Terminal workspace and multiplexer
+brew "zoxide"                           # Smarter cd command
+cask "firefox"                          # Web browser
+cask "ghostty"                          # GPU-accelerated terminal emulator
+cask "httpie-desktop"                   # HTTP client GUI
+cask "iterm2"                           # Terminal emulator
+cask "orbstack"                         # Container runtime and Linux VMs
+cask "slack"                            # Team messaging
+cask "spectacle"                        # Window management via keyboard shortcuts
+cask "spotify"                          # Music streaming
+cask "tailscale-app"                    # Tailscale VPN client
+cask "visual-studio-code"              # Code editor
+cask "zed"                              # Code editor
+vscode "dtsvet.vscode-wasm"                                        # WebAssembly syntax support
+vscode "ms-vscode-remote.remote-containers"                        # Dev Containers support
+vscode "ms-vscode-remote.remote-ssh"                               # Remote SSH development
+vscode "ms-vscode-remote.remote-ssh-edit"                          # Remote SSH file editing
+vscode "ms-vscode.cmake-tools"                                     # CMake integration
+vscode "ms-vscode.cpptools"                                        # C/C++ IntelliSense and debugging
+vscode "ms-vscode.remote-explorer"                                 # Remote target browser
+vscode "redhat.java"                                               # Java language support
+vscode "rust-lang.rust-analyzer"                                   # Rust language server
+vscode "scala-lang.scala"                                          # Scala language support
+vscode "sdras.night-owl"                                           # Night Owl color theme
+vscode "tailscale.vscode-tailscale"                                # Tailscale integration
+vscode "tamasfe.even-better-toml"                                  # TOML language support
+vscode "twxs.cmake"                                                # CMake syntax highlighting
+vscode "vscjava.vscode-gradle"                                     # Gradle integration
+vscode "vscjava.vscode-java-debug"                                 # Java debugger
+vscode "vscjava.vscode-java-dependency"                            # Java dependency viewer
+vscode "vscjava.vscode-java-pack"                                  # Java extension pack
+vscode "vscjava.vscode-java-test"                                  # Java test runner
+vscode "vscjava.vscode-maven"                                      # Maven integration
+vscode "yzhang.markdown-all-in-one"                                # Markdown editing tools
