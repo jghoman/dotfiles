@@ -16,6 +16,7 @@ install-brew-programs:
     brew install bundle
 
 # Install Oh My Zsh framework and Fira Code Nerd Font
+[group('initial-setup')]
 install-oh-my-zsh:
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     brew install --cask font-fira-code-nerd-font
@@ -645,6 +646,7 @@ readme-quickstart:
     echo "README.md created successfully."
 
 # Open a new tmux pane in the current directory
+[group('tmux')]
 open-pane:
     tmux split-window -h -c "#{pane_current_path}"
 
