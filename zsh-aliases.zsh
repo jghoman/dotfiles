@@ -13,3 +13,11 @@ alias gco="git checkout"
 
 alias j="just"
 alias calcure="uvx calcure"
+
+newsrc() {
+  if tmux list-windows -F "#{window_name}" | grep -qx "$1"; then
+    tmux select-window -t "=$1"
+    return
+  fi
+  tmux new-window -n "$1" -c "$HOME/src/$1"
+}
