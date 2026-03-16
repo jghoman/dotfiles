@@ -12,6 +12,7 @@ alias gc="git commit"
 alias gco="git checkout"
 
 alias j="just"
+alias jx="uvx justx"
 alias calcure="uvx calcure"
 
 newsrc() {
