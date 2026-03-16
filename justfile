@@ -681,9 +681,9 @@ ollama-setup-48gb:
     # glm-4.7-flash (19GB) — 30B-A3B MoE model. Strong coding benchmarks in its
     # size class. Heavy hitter for second opinions on hard problems.
     ollama pull glm-4.7-flash:q4_K_M
-    # qwen3:30b-a3b (19GB) — 30B/3B-active MoE reasoning model. Different
-    # architecture from nemotron/glm, useful as a third opinion. Supports thinking mode.
-    ollama pull qwen3:30b-a3b
+    # qwen3.5:35b-a3b (22GB) — 35B/3B-active MoE reasoning model. Successor to
+    # qwen3:30b-a3b with 256K context and 201 language support. Thinking mode.
+    ollama pull qwen3.5:35b-a3b
     # gpt-oss:20b (14GB) — OpenAI's open-weight model. Fast and capable fallback
     # for quick chat and lighter tasks.
     ollama pull gpt-oss:20b
@@ -695,18 +695,13 @@ ollama-setup-32gb:
     #!/usr/bin/env bash
     set -e
     echo "Pulling recommended models for 32GB Mac..."
-    # devstral-small-2 (15GB) — #1 open source model on SWE-bench. Excels at
-    # multi-file agentic editing and codebase exploration. Best bang-for-buck
-    # coding model at this RAM tier.
+    # devstral-small-2 (15GB) — #1 open source model on SWE-bench (68%). Excels at
+    # multi-file agentic editing and codebase exploration. Requires Ollama 0.13.3+.
     ollama pull devstral-small-2
     # gpt-oss:20b (14GB) — OpenAI's open-weight model. Strong reasoning and
     # agentic tasks. Serves as the primary all-rounder at this RAM level.
     ollama pull gpt-oss:20b
-    # qwen3:14b (9.3GB) — Dense 14B reasoning model with thinking mode. Different
-    # architecture provides a second opinion. Small enough to coexist in memory
-    # with the MoE models above.
-    ollama pull qwen3:14b
-    # qwen3:8b (5.2GB) — Lightweight fast fallback for quick chat and simple tasks.
-    # Fits easily alongside any other loaded model.
-    ollama pull qwen3:8b
+    # qwen3.5:9b (5GB) — Dense 9B reasoning model with thinking mode. Successor to
+    # qwen3:8b and qwen3:14b. Small enough to coexist with any other loaded model.
+    ollama pull qwen3.5:9b
     echo "Done. All 32GB models pulled."
