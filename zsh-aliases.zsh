@@ -38,3 +38,15 @@ newsrc() {
   fi
   tmux new-window -n "$1" -c "$HOME/src/$1"
 }
+
+gfetch_all() {
+  local -a cmds
+  for d in */(N); do
+    [[ -d "$d/.git" || -f "$d/.git" ]] || continue
+    cmds+=("cd ${(q)d:a} && git fetch --all")
+  done
+  
+  (( ${#cmds} )) || return 0
+  
+  mprocs "${cmds[@]}"
+}
