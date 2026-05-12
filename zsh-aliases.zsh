@@ -15,6 +15,9 @@ alias j="just"
 alias jx="uvx justx"
 alias calcure="uvx calcure"
 
+alias y="yazi"
+alias h="hx"
+
 inpane() {
   local chan="inpane-$$-$RANDOM"
   local current_pane=$(tmux display-message -p '#{pane_id}')
