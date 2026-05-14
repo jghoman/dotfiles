@@ -6,7 +6,7 @@ alias c="clear"
 alias e="eza --icons=always --group-directories-first"
 alias l="eza --long --icons=always --group-directories-first"
 alias ls="eza --icons=always --group-directories-first"
-
+alias g="glow -p"
 alias gb="git checkout -b"
 alias gc="git commit"
 alias gco="git checkout"
