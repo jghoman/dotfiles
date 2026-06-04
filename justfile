@@ -5,9 +5,10 @@ default:
 # Set screenshot save location to ~/screenshots and format to JPG
 [group('mac')]
 update-screenshot-location-and-type:
-    mkdir ~/screenshots
+    mkdir -p ~/screenshots
     defaults write com.apple.screencapture location ~/screenshots
     defaults write com.apple.screencapture "type" -string "jpg"
+    defaults write NSGlobalDomain AppleICUForce24HourTime -bool true
     killall SystemUIServer
 
 # Install Homebrew Bundle plugin
