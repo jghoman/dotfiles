@@ -83,7 +83,9 @@ RUN case "${TARGETARCH:-$(dpkg --print-architecture)}" in \
     && apt-get update \
     && apt-get install -y /tmp/flox.deb \
     && rm /tmp/flox.deb \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && chown -R ${USER_UID}:${USER_GID} /nix
+ENV FLOX_DISABLE_METRICS=true
 
 # --- ctop (not packaged in Debian) ---
 ARG CTOP_VERSION=0.7.7
