@@ -1,0 +1,18 @@
+default:
+    @just --list
+
+# Build the devbox image
+build:
+    container build -t devbox .
+
+# Rebuild the devbox image from scratch (no cache)
+rebuild:
+    container build --no-cache -t devbox .
+
+# Start an interactive devbox shell with $PWD mounted at ~/work (caps needed for rootless podman)
+run:
+    container run -it --rm --cap-add ALL -v "$PWD:/home/jakob/work" -w /home/jakob/work devbox
+
+# Verify rootless podman works inside the container
+test-podman:
+    container run --rm --cap-add ALL devbox podman run --rm docker.io/library/alpine echo "podman works"

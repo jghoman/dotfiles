@@ -50,3 +50,18 @@ gfetch_all() {
   
   mprocs "${cmds[@]}"
 }
+
+# Apple container related commands
+alias ac-here="container run -it -v $(pwd):/app -w /app alpine:latest sh"
+
+# Devbox via Apple container: pwd -> ~/src, ssh + claude creds mounted.
+# Image built with: container build -t devbox ~/devsandbox
+devbox() {
+  container run -it --rm --cap-add ALL \
+    -v "$PWD:/home/jakob/src" \
+    -v "$HOME/.ssh:/home/jakob/.ssh" \
+    -v "$HOME/.claude:/home/jakob/.claude" \
+    -v "$HOME/.claude.json:/home/jakob/.claude.json" \
+    -w /home/jakob/src \
+    devbox "$@"
+}
