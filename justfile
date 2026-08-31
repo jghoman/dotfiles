@@ -706,3 +706,19 @@ ollama-setup-32gb:
     # qwen3:8b and qwen3:14b. Small enough to coexist with any other loaded model.
     ollama pull qwen3.5:9b
     echo "Done. All 32GB models pulled."
+
+[group('ai')]
+[script("bash")]
+bench-local-models:
+    set -euo pipefail
+
+    mkdir -p ~/inspect-results
+
+    ollama list | tail -n +2 | while IFS= read -r line; do
+        model="${line%% *}"
+        safe="${model//[:\/]/_}"
+
+        inspect eval inspect_evals/mmlu \
+            --model "ollama/$model" \
+            --log-dir "~/inspect-results/$safe"
+    done
